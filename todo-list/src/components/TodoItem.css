@@ -1,0 +1,31 @@
+.todo-item-container {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem 1rem;
+}
+
+.item-remove {
+  color: red;
+  font-size: 1.3rem;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.item-remove:hover {
+  opacity: 1;
+}
+
+.item-text {
+  flex: 1;
+  margin-left: 1rem;
+  font-size: 1.2rem;
+}
+
+.item-checked {
+  color: #37b24d;
+  font-size: 1.3rem;
+}
+
+.checked {
+  text-decoration: line-through;
+}
