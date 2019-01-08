@@ -1,0 +1,24 @@
+@import 'utils';
+
+.container {
+  $header_height: 5rem;
+  header {
+    display: flex;
+    align-items: center;
+    background: $oc-gray-9;
+    color: white;
+    padding-left: 1rem;
+    font-size: 2rem;
+    height: $header_height;
+    border-bottom: 1px solid $oc-orange-4;
+
+    @include media("<tablet") {
+      font-size: 1.25rem;
+    }
+  }
+  .viewer-wrapper {
+    position: relative;
+    height: calc(100vh - #{$header_height});
+    width: 100%;
+  }
+}
