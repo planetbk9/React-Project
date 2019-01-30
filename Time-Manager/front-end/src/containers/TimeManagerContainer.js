@@ -40,7 +40,7 @@ class TimeManagerContainer extends Component {
   onUnload = (event) => {
     const { initTime, startTime, stoppedTime, currentTime } = this.props;
     const time = initTime + currentTime - startTime - stoppedTime;
-    axios.put('http://kevin9.iptime.org:9000/api/update/' + getDate(), {
+    axios.put('### Your Server ###' + getDate(), {
       time: time
     })
     .then(res => {

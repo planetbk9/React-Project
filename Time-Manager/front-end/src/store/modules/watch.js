@@ -24,10 +24,10 @@ export const delete_data = createAction(DELETE_DATA);
 
 // Get data from server using middleware
 export const getInit = (date) => dispatch => {
-  return axios.get('http://kevin9.iptime.org:9000/api/times/' + date)
+  return axios.get('### Your Server ###' + date)
   .then(res => {
     if(res.data === null) {
-      axios.post('http://kevin9.iptime.org:9000/api/time', {
+      axios.post('### Your Server ###', {
         _id: date,
         date: Date.now(),
         time: 0

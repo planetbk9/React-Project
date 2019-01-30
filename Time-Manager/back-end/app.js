@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 const cors = require('cors');
 
 app.use(cors({
-  origin: 'http://kevin9.iptime.org:9001',
+  origin: '### Your Server ###',
   credentials: true
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
