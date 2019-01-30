@@ -24,16 +24,10 @@ const timeToString = (time) => {
   return hour + ":" + minutes + ":" + seconds + "." + ms;
 };
 
-const stringToTime = (str) => {
-  let arr = str.split(':');
-  return arr[0]*60*60*1000 + arr[1]*60*1000 + arr[2]*1000 + arr[3]*10;
-};
-
 class TimeManager extends Component {
   render() {
-    const { init, time, onStart, onPause, onReset, onResume, state } = this.props;
-    const initTime = stringToTime(init);
-    const timeString = timeToString(initTime + time);
+    const { init, time, onStart, onPause, onReset, onResume, state, date } = this.props;
+    const timeString = timeToString(init + time);
     const resumeBtnStr = state === 'pause' ? 'Resume' : 'Pause';
     const resumeBtnCb = state === 'progress' ? onPause : onResume;
 
@@ -48,7 +42,7 @@ class TimeManager extends Component {
         <header>Time Manager</header>
         <main>
           <div className="date">
-            <p>2019-01-16</p>
+            <p>{date}</p>
           </div>
           <div className="time">
             <p>{timeString}</p>
