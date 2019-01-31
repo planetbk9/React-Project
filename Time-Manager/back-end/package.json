@@ -4,5 +4,9 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "mongoose": "^5.4.6"
+  },
+  "scripts": {
+    "start": "PORT=9090 node app.js",
+    "stop": "fuser -k -n tcp 9090"
   }
 }

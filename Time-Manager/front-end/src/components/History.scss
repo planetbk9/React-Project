@@ -1,0 +1,57 @@
+@import 'styles/utils.scss';
+
+.history-container {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  min-width: 300px;
+  max-width: 700px;
+  margin: 3em auto;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+
+  header {
+    text-align: center;
+    background: $oc-teal-4;
+    color: white;
+    padding: 1rem;
+    border-bottom: 1px solid $oc-gray-4;
+    @include getFontSize(3rem);
+  }
+  .brickcontainer {
+    position: relative;
+    background: $oc-teal-1;
+
+    .brick-item-common {
+      position: absolute;
+      padding: 1rem;
+      vertical-align: baseline;
+      color: gray;
+    }
+    .brick-item-1 {
+      width: 25%;
+    }
+    .brick-item-2 {
+      width: 50%;
+    }
+    .history-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+      @include getFontSize(1rem);
+      min-height: 3rem;
+      background: $oc-teal-2;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 -4px -8px rgba(0,0,0,0.2);
+      .history-date {
+        color: gray;
+        font-weight: 700;
+      }
+      .history-time {
+        color: black;
+        font-weight: 700;
+      }
+    }
+  }
+}

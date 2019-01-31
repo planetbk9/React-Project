@@ -1,9 +1,10 @@
 import React from 'react';
 
-const AppTemplate = ({TimeManagerContainer, History}) => {
+const AppTemplate = ({TimeManagerContainer, HistoryContainer}) => {
   return (
     <div>
       <TimeManagerContainer />
+      <HistoryContainer />
     </div>
   );
 };

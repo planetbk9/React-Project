@@ -5,21 +5,22 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  min-width: 20rem;
   width: 70%;
+  min-width: 300px;
+  max-width: 700px;
   margin: 2rem auto;
   box-shadow: 0 8px 15px rgba(0,0,0,0.2);
   box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 
   header {
-    font-size: 3rem;
     font-weight: 600;
-    padding: 1.5rem;
+    padding: 1rem;
     background: $oc-blue-7;
     color: white;
     border-bottom: 1px solid $oc-orange-8;
     width: 100%;
     text-align: center;
+    @include getFontSize(3rem);
   }
 
   main {
@@ -36,19 +37,19 @@
     .date {
       width: 100%;
       margin-bottom: 1rem;
-      font-size: 1.5rem;
       font-weight: 300;
       text-align: center;;
       color: $oc-gray-7;
+      @include getFontSize(2rem);
     }
     .time {
       width: 100%;
       color: $oc-blue-1;
-      font-size: 4rem;
       font-weight: 600;
       margin-bottom: 2rem;
       text-align: center;
       font-family: monospace;
+      @include getFontSize(4rem);
     }
     .control {
       width: 50%;

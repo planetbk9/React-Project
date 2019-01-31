@@ -5,10 +5,15 @@ var Time = require('./models/time');
 var mongoose = require('mongoose');
 const cors = require('cors');
 
-app.use(cors({
-  origin: 'http://kevin9.iptime.org:9001',
+const corsOptions = {
+  origin: (origin, callback) => {
+    if(/kevin9.iptime.org/.test(origin)) callback(null, true);
+    else callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
-}));
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

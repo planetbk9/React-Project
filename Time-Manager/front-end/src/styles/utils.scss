@@ -5,3 +5,26 @@ body, header, h1, h2, h3, h4, h5, h6, div, main, p, button, a, li, ul, ol {
   padding: 0;
   box-sizing: border-box;
 }
+p {
+  word-break: break-all;
+}
+header, h1, h2, h3, h4, h5, h6, main {
+  word-break: break-word;
+}
+
+$wide-screen: "(min-width: 1025px)";
+$middle-screen: "(min-width: 701px) and (max-width: 1024px)";
+$small-screen: "(max-width: 700px)";
+
+@mixin getFontSize($basic) {
+  font-size: $basic;
+  @media #{$wide-screen} {
+    font-size: $basic;
+  }
+  @media #{$middle-screen} {
+    font-size: $basic/1.2;
+  }
+  @media #{$small-screen} {
+    font-size: $basic/1.5;
+  }
+}

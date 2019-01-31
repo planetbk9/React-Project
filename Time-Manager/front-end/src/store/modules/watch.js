@@ -1,5 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import axios from 'axios';
+import server from 'utils/serverinfo';
 
 const START = 'watch/start';
 const PAUSE = 'watch/pause';
@@ -24,10 +25,10 @@ export const delete_data = createAction(DELETE_DATA);
 
 // Get data from server using middleware
 export const getInit = (date) => dispatch => {
-  return axios.get('http://kevin9.iptime.org:9000/api/times/' + date)
+  return axios.get(server + '/api/times/' + date)
   .then(res => {
     if(res.data === null) {
-      axios.post('http://kevin9.iptime.org:9000/api/time', {
+      axios.post(server + '/api/time', {
         _id: date,
         date: Date.now(),
         time: 0
@@ -41,7 +42,7 @@ export const getInit = (date) => dispatch => {
       })
       return;
     }
-    console.log("data received from server: " + res.data.time);
+    //console.log("data received from server: " + res.data.time);
     dispatch(fetch_data({date: date, time: res.data.time})); 
   })
   .catch(err => {
@@ -88,7 +89,7 @@ export default handleActions({
   },
   [RESET]: (state, action) => {
     return {
-      initTime: '00:00:00:00',
+      initTime: 0,
       startTime: action.payload,
       stoppedTime: 0,
       pauseTime: 0,
