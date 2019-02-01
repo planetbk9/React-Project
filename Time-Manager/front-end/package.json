@@ -18,11 +18,11 @@
     "sass-loader": "^7.1.0"
   },
   "scripts": {
-    "start": "PORT=8080 react-scripts start",
+    "start": "PORT=9010 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "stop": "fuser -k -n tcp 8080"
+    "stop": "fuser -k -n tcp 9010"
   },
   "eslintConfig": {
     "extends": "react-app"

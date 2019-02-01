@@ -128,20 +128,4 @@ const mapStateToProps = ({watch}) => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(watchActions, dispatch);
 
-<<<<<<< HEAD
 export default connect(mapStateToProps, mapDispatchToProps)(TimeManagerContainer);
-=======
-export default connect(mapStateToProps, mapDispatchToProps)(TimeManagerContainer);
-
-const getDate = () => {
-  const dateObj = new Date();
-
-  let dateString = dateObj.getFullYear() + '-';
-  const month = dateObj.getMonth() + 1;
-  dateString += (/\d{2}/.test(month) ? month : '0' + month) + '-';
-  const date = dateObj.getDate();
-  dateString += /\d{2}/.test(date) ? date : '0' + date;
-  
-  return dateString;
-};
->>>>>>> abd2a12a145ec1695b88ca11a7ab5d12afd97f21
