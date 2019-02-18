@@ -1,14 +1,12 @@
 @import 'styles/utils.scss';
 
-.container {
+.watch-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 70%;
-  min-width: 300px;
-  max-width: 700px;
-  margin: 2rem auto;
+  width: 100%;
+  margin: 0;
   box-shadow: 0 8px 15px rgba(0,0,0,0.2);
   box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 
@@ -17,7 +15,7 @@
     padding: 1rem;
     background: $oc-blue-7;
     color: white;
-    border-bottom: 1px solid $oc-orange-8;
+    border-bottom: 1px solid $oc-orange-4;
     width: 100%;
     text-align: center;
     @include getFontSize(3rem);
@@ -34,15 +32,22 @@
     width: 100%;
     padding: 1rem;
 
-    .date {
+    .watch-info {
       width: 100%;
       margin-bottom: 1rem;
-      font-weight: 300;
-      text-align: center;;
+      font-weight: 100;
+      text-align: center;
       color: $oc-gray-7;
-      @include getFontSize(2rem);
+      @include getFontSize(1.5rem);
+      .watch-date {
+        color: rgba(0,0,0,0.7);
+      }
+      .watch-subject {
+        font-weight: 600;
+        color: rgba(0,0,0,1);
+      }
     }
-    .time {
+    .watch-time {
       width: 100%;
       color: $oc-blue-1;
       font-weight: 600;
@@ -51,7 +56,7 @@
       font-family: monospace;
       @include getFontSize(4rem);
     }
-    .control {
+    .watch-control {
       width: 50%;
       button {
         width: 4rem;
@@ -68,11 +73,11 @@
           transition: all 0.3s ease-in;
         }
       }
-      #on-stop {
+      #watch-on-stop {
         display: flex;
         justify-content: center;
       }
-      #on-progress {
+      #watch-on-progress {
         display: flex;
         justify-content: space-between;
       }
@@ -80,6 +85,6 @@
   }
 }
 
-.hidden {
+.watch-hidden {
   display: none;
 }

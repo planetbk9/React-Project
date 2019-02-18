@@ -33,4 +33,71 @@ const timeToString = (time) => {
   return hour + ":" + minutes + ":" + seconds + "." + ms;
 };
 
-export default {getDate, timeToString};
+const stringToTime = (str) => {
+  const reg = /^(\d{1,}):(\d{2}):(\d{2}).(\d{2})$/g;
+  const result = reg.exec(str);
+  if(!result) return null;
+  else {
+    const hours = +result[1];
+    const mins = +result[2];
+    const secs = +result[3];
+    const msecs = +result[4];
+
+    return hours*60*60*1000 + mins*60*1000 + secs*1000 + msecs;
+  }
+};
+
+const findUserItemByDate = (userItems, date) => {
+  if(!userItems) return null;
+  let ret;
+  userItems.some(userItem => {
+    if(userItem.date === date) {
+      ret = userItem;
+      return true;
+    }
+    return false;
+  });
+  return ret;
+};
+
+const findItemById = (userItems, date, _id) => {
+  if(!userItems) return null;
+  let ret;
+  userItems.some(userItem => {
+    if(userItem.date === date) {
+      userItem.dateItems.some(dateItem => {
+        if(String(dateItem._id) === String(_id)) {
+          ret = dateItem;
+          return true;
+        }
+        return false;
+      });
+      return true;
+    }
+    return false;
+  });
+  return ret;
+};
+
+const findItemBySubject = (userItems, date, subject) => {
+  if(!userItems) return null;
+  let ret;
+  
+  userItems.some(userItem => {
+    if(userItem.date === date) {
+      userItem.dateItems.some(dateItem => {
+        if(dateItem.subject === subject) {
+          ret = dateItem;
+          return true;
+        }
+        return false;
+      });
+      return true;
+    }
+    return false;
+  });
+
+  return ret;
+};
+
+export default {getDate, timeToString, stringToTime, findItemById, findItemBySubject, findUserItemByDate};

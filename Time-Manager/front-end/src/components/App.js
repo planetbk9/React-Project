@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.scss';
 import AppTemplate from './AppTemplate';
-import TimeManagerContainer from 'containers/TimeManagerContainer';
-import HistoryContainer from 'containers/HistoryContainer'
+import StopWatchContainer from 'containers/StopWatchContainer';
+import HistoryContainer from 'containers/HistoryContainer';
+import SubjectContainer from 'containers/SubjectContainer';
 import store from 'store';
 import { Provider } from 'react-redux';
 
@@ -11,8 +12,9 @@ class App extends Component {
     return (
       <Provider store={store}>
         <AppTemplate 
-          TimeManagerContainer={TimeManagerContainer}
-          HistoryContainer={HistoryContainer}/>
+        StopWatchContainer={StopWatchContainer}
+          HistoryContainer={HistoryContainer}
+          SubjectContainer={SubjectContainer}/>
       </Provider>
     );
   }

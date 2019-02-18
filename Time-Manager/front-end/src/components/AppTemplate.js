@@ -1,10 +1,16 @@
 import React from 'react';
+import './AppTemplate.scss';
 
-const AppTemplate = ({TimeManagerContainer, HistoryContainer}) => {
+const AppTemplate = ({StopWatchContainer, HistoryContainer, SubjectContainer}) => {
   return (
-    <div>
-      <TimeManagerContainer />
-      <HistoryContainer />
+    <div className="template-container">
+      <div className="subject-container">
+        <SubjectContainer />
+      </div>
+      <div className="time-history-container">
+        <StopWatchContainer />
+        <HistoryContainer />
+      </div>
     </div>
   );
 };

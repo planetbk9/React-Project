@@ -14,9 +14,9 @@ class History extends Component {
   componentDidMount() {
     window.addEventListener('resize', this.onResize);
   }
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps, nextState) {
     // 최적화 필요
-    return true;
+    return this.props !== nextProps;
   }
   componentDidUpdate() {
     bricklayout()();
@@ -26,16 +26,26 @@ class History extends Component {
   }
 
   render() {
-    const { items } = this.props;
-    let elemItems = [];
+    const { userItems, loadItem, deleteItem } = this.props;
+    let userItemsJSX = [];
     // 최적화 필요
-    items.forEach(item => {
-      elemItems = elemItems.concat(
-        <div key={item._id} className="brick-item-common brick-item-2">
-          <div className="history-item">
-            <p className="history-date">{item._id}</p>
-            <p className="history-time">{funcs.timeToString(item.time)}</p>
+    userItems.forEach(userItem => {
+      const userItemJSX = userItem.dateItems.map(dateItem => {
+        if(dateItem === null) return false;
+        return(
+          <div key={dateItem._id} className="history-item-container" onClick={() => {loadItem(userItem.date, dateItem._id);}}>
+            <div className="history-item-subject">{dateItem.subject}</div>
+            <div className="history-item-time">{funcs.timeToString(dateItem.time)}</div>
+            <div className="history-item-delete" onClick={() => {deleteItem(dateItem._id);}}><i className="fas fa-times"></i></div>
           </div>
+        );
+      });
+      userItemsJSX = userItemsJSX.concat(
+        <div key={userItem._id} className="brick-item-common brick-item-2">
+          <div className="history-item-header">
+            {userItem.date}
+          </div>
+          {userItemJSX}
         </div>
       );
     });
@@ -44,7 +54,7 @@ class History extends Component {
         <header>History</header>
         <main>
           <div className="brickcontainer">
-            {elemItems}
+            {userItemsJSX}
           </div>
         </main>
       </div>

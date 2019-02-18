@@ -1,64 +1,33 @@
 import { createAction, handleActions } from 'redux-actions';
-import axios from 'axios';
-import server from 'utils/serverinfo';
+import funcs from 'utils/funcs';
+import * as restAPI from 'utils/restAPI';
 
 const START = 'watch/start';
 const PAUSE = 'watch/pause';
 const RESUME = 'watch/resume';
 const RESET = 'watch/reset';
 const PROGRESS = 'watch/progress';
-const FETCH_DATA = 'db/fetch';
-const INSERT_DATA = 'db/insert';
-const UPDATE_DATA = 'db/update';
-const DELETE_DATA = 'db/delete';
+const SYNC = 'watch/sync';
+const UPDATE_DB = 'watch/update_db';
 
-export const start = createAction(START);
-export const pause = createAction(PAUSE);
-export const resume = createAction(RESUME);
-export const reset = createAction(RESET);
-export const progress = createAction(PROGRESS);
-// DB actions
-export const fetch_data = createAction(FETCH_DATA);
-export const insert_data = createAction(INSERT_DATA);
-export const update_data = createAction(UPDATE_DATA);
-export const delete_data = createAction(DELETE_DATA);
-
-// Get data from server using middleware
-export const getInit = (date) => dispatch => {
-  return axios.get(server + '/api/times/' + date)
-  .then(res => {
-    if(res.data === null) {
-      axios.post(server + '/api/time', {
-        _id: date,
-        date: Date.now(),
-        time: 0
-      })
-      .then(res => {
-        dispatch(fetch_data({date: date, time: res.data.time}))
-        console.log(res);
-      })
-      .catch(err => {
-        console.error(err);
-      })
-      return;
-    }
-    //console.log("data received from server: " + res.data.time);
-    dispatch(fetch_data({date: date, time: res.data.time})); 
-  })
-  .catch(err => {
-    console.error(err);
-  })
-};
-
+export const watch_start = createAction(START);
+export const watch_pause = createAction(PAUSE);
+export const watch_resume = createAction(RESUME);
+export const watch_reset = createAction(RESET);
+export const watch_progress = createAction(PROGRESS);
+export const watch_sync = createAction(SYNC);
+export const watch_update_db = createAction(UPDATE_DB);
 
 const initialState = {
+  user: 'kevin.koo',
+  date: funcs.getDate(),
+  dateItem: {},
   initTime: 0,
   startTime: Date.now(),
   stoppedTime: 0,
   pauseTime: 0,
   currentTime: Date.now(),
-  date: '1900-00-00',
-  lifeCycle: 'stop'
+  state: 'stop'
 };
 
 export default handleActions({
@@ -67,7 +36,7 @@ export default handleActions({
       ...state,
       startTime: action.payload,
       currentTime: action.payload,
-      lifeCycle: 'progress'
+      state: 'progress'
     };
   },
   [PAUSE]: (state, action) => {
@@ -75,7 +44,7 @@ export default handleActions({
       ...state,
       pauseTime: action.payload,
       currentTime: action.payload,
-      lifeCycle: 'pause'
+      state: 'pause'
     }
   },
   [RESUME]: (state, action) => {
@@ -84,31 +53,57 @@ export default handleActions({
       ...state,
       stoppedTime: stopped,
       currentTime: action.payload,
-      lifeCycle: 'progress'
+      state: 'progress'
     }
   },
   [RESET]: (state, action) => {
     return {
+      ...state,
       initTime: 0,
       startTime: action.payload,
       stoppedTime: 0,
       pauseTime: 0,
       currentTime: action.payload,
-      lifeCycle: 'stop'
+      state: 'stop'
     }
   },
   [PROGRESS]: (state, action) => {
     return {
       ...state,
       currentTime: action.payload,
-      lifeCycle: 'progress'
+      state: 'progress'
     }
   },
-  [FETCH_DATA]: (state, action) => {
+  [SYNC]: (state, action) => {
+    const date = action.payload['date'];
+    const dateItem = action.payload['dateItem'];
+    
     return {
       ...state,
-      initTime: action.payload['time'],
-      date: action.payload['date']
+      date,
+      dateItem,
+      initTime: dateItem.time,
+      startTime: Date.now(),
+      stoppedTime: 0,
+      pauseTime: 0,
+      currentTime: Date.now(),
+      state: 'stop'
+    };
+  },
+  [UPDATE_DB]: (state, action) => {
+    const newDateItem = {
+      ...state.dateItem,
+      ...action.payload
+    };
+    restAPI.updateData(state.user, state.dateItem._id, newDateItem)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+    return {
+      ...state
     }
   }
 }, initialState);

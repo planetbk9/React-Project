@@ -9,6 +9,7 @@ const corsOptions = {
   origin: (origin, callback) => {
     if(/kevin9.iptime.org/.test(origin)) callback(null, true);
     else callback(new Error('Not allowed by CORS'));
+    //callback(null, true);
   },
   credentials: true
 };
@@ -17,7 +18,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://localhost/Practice');  
+mongoose.connect('mongodb://localhost/TimeManager');  
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection Error!'));

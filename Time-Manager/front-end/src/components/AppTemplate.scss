@@ -1,0 +1,22 @@
+@import 'styles/utils';
+
+.template-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 3rem 10rem;
+  .subject-container {
+    width: 30%;
+    min-width: 150px;
+    max-width: 250px;
+    background: $oc-yellow-3;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  }
+  .time-history-container {
+    width: 70%;
+    min-width: 300px;
+    max-width: 700px;
+    margin-left: 2rem;
+  }
+}

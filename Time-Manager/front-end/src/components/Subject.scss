@@ -1,0 +1,54 @@
+@import 'styles/utils';
+
+.subject-inner-container {
+  .subject-input {
+    display: flex;
+    flex-direction: row;
+    height: 1.5rem;
+    width: 100%;
+    .subject-input-text {
+      background: $oc-yellow-1;
+      outline: none;
+      border: none;
+      min-width: 1rem;
+      flex: 1;
+    }
+    .subject-input-button {
+      background: $oc-gray-4;
+      outline: none;
+      border: none;
+    }
+  }
+  header {
+    font-weight: 600;
+    padding: 1rem;
+    background: $oc-yellow-4;
+    color: $oc-lime-6;
+    border-bottom: 1px solid $oc-red-4;
+    width: 100%;
+    text-align: center;
+    @include getFontSize(3rem);
+  }
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+
+    .subject-item {
+      width: 100%;
+      margin-bottom: 1rem;
+      background: $oc-yellow-2;
+      border-radius: 2rem;
+      cursor: pointer;
+      padding: 1rem;
+      @include getFontSize(1rem);
+      
+      &:hover {
+        background: $oc-yellow-6;
+        transition: all 0.3s ease-in;
+      }
+    }
+  }
+}
