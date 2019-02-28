@@ -7,9 +7,9 @@ const cors = require('cors');
 
 const corsOptions = {
   origin: (origin, callback) => {
-    if(/kevin9.iptime.org/.test(origin)) callback(null, true);
-    else callback(new Error('Not allowed by CORS'));
-    //callback(null, true);
+    //if(/kevin9.iptime.org/.test(origin)) callback(null, true);
+    //else callback(new Error('Not allowed by CORS'));
+    callback(null, true);
   },
   credentials: true
 };

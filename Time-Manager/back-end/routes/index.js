@@ -11,8 +11,16 @@ module.exports = (app, Time) => {
       if(err) return res.status(500).send({error: 'Find failure'});
 
       const _id = req.params._id;
+      if(!data) {
+        res.json(null);
+        return;
+      }
       if(data._id == _id) {
         res.json(data);
+        return;
+      }
+      if(!data.useritems) {
+        res.json(null);
         return;
       }
       data.userItems.some(userItem => {
@@ -112,6 +120,7 @@ module.exports = (app, Time) => {
       let found = false;
       data.userItems.some(userItem => {
         userItem.dateItems.some(dateItem => {
+          if(!dateItem) return false;
           if(String(dateItem._id) === _id) {
             Object.keys(newItem).forEach(key => {
               dateItem[key] = newItem[key];
@@ -132,6 +141,26 @@ module.exports = (app, Time) => {
           res.json(ret);
         });
       }
+    });
+  });
+
+  app.delete('/api/deleteUserItem/:user/:_id', (req, res) => {
+    Time.findOne({user: req.params.user}, (err, data) => {
+      const _id = req.params._id;
+      let userItems = data.userItems;
+      let ret;
+
+      data.userItems = userItems.filter(userItem => {
+        if(String(userItem['_id']) === String(_id)) {
+          ret = userItem;
+          return false;
+        }
+        return true;
+      });
+
+      data.save((err, data) => {
+        res.json(ret); 
+      });
     });
   });
 

@@ -56,7 +56,7 @@ class SubjectContainer extends Component {
     const subjects = new Set();
     db.userItems.forEach(userItem => {
       userItem.dateItems.forEach(dateItem => {
-        if(dateItem.subject !== '') subjects.add(dateItem.subject);
+        if(dateItem && dateItem.subject !== '') subjects.add(dateItem.subject);
       });
     });
     const subjectSet = [...subjects];
