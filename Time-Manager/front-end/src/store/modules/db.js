@@ -15,6 +15,7 @@ const initialState = {
 export const fetchDB = (user) => dispatch => {
   return restAPI.getUserAllData(user)
   .then(res => {
+    if(!res || !res.data || !res.data.userItems) return null;
     dispatch(db_insert_all(res.data.userItems));
     return res.data;
   });

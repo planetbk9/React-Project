@@ -9,6 +9,7 @@ const RESET = 'watch/reset';
 const PROGRESS = 'watch/progress';
 const SYNC = 'watch/sync';
 const UPDATE_DB = 'watch/update_db';
+const KEYCONTROL = 'watch/keycontrol';
 
 export const watch_start = createAction(START);
 export const watch_pause = createAction(PAUSE);
@@ -17,6 +18,7 @@ export const watch_reset = createAction(RESET);
 export const watch_progress = createAction(PROGRESS);
 export const watch_sync = createAction(SYNC);
 export const watch_update_db = createAction(UPDATE_DB);
+export const watch_keycontrol = createAction(KEYCONTROL);
 
 const initialState = {
   user: 'kevin.koo',
@@ -27,6 +29,7 @@ const initialState = {
   stoppedTime: 0,
   pauseTime: 0,
   currentTime: Date.now(),
+  keyCombination: 1,
   state: 'stop'
 };
 
@@ -104,6 +107,12 @@ export default handleActions({
     });
     return {
       ...state
+    }
+  },
+  [KEYCONTROL]: (state, action) => {
+    return {
+      ...state,
+      keyCombination: action.payload
     }
   }
 }, initialState);

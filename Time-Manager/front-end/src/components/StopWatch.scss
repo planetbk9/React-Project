@@ -1,5 +1,9 @@
 @import 'styles/utils.scss';
 
+.datepicker {
+  background: $oc-blue-3;
+  outline: none;
+}
 .watch-container {
   display: flex;
   flex-direction: column;
@@ -11,14 +15,15 @@
   box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 
   header {
-    font-weight: 600;
+    font-weight: 400;
     padding: 1rem;
     background: $oc-blue-7;
     color: white;
     border-bottom: 1px solid $oc-orange-4;
     width: 100%;
     text-align: center;
-    @include getFontSize(3rem);
+    @include getFontSize(2rem);
+    font-family: HannaPro;
   }
 
   main {
@@ -31,6 +36,7 @@
     background: $oc-blue-3;
     width: 100%;
     padding: 1rem;
+    font-family: HannaPro;
 
     .watch-info {
       width: 100%;
@@ -40,7 +46,27 @@
       color: $oc-gray-7;
       @include getFontSize(1.5rem);
       .watch-date {
+        display: inline-block;
+        position: relative;
         color: rgba(0,0,0,0.7);
+        .date-container {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0);
+          .datepicker {
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0);
+            color: rgba(0,0,0,0);
+            border: none;
+            outline: none;
+            cursor: pointer;
+          }
+
+        }
       }
       .watch-subject {
         font-weight: 600;
@@ -66,7 +92,7 @@
         background: $oc-blue-9;
         color: white;
         border-radius: 50%;
-
+        font-family: HannaPro;
         &:hover {
           background: $oc-gray-7;
           cursor: pointer;

@@ -51,7 +51,7 @@ class History extends Component {
     });
     return (
       <div className="history-container">
-        <header>History</header>
+        <header>히스토리</header>
         <main>
           <div className="brickcontainer">
             {userItemsJSX}

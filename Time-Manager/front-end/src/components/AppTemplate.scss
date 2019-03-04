@@ -1,22 +1,75 @@
 @import 'styles/utils';
 
 .template-container {
+  .template-header {
+    display: flex;
+    width: 100%;
+    height: 7rem;
+    line-height: 7rem;
+    background: white;
+    color: black;
+    border-bottom: 1px solid black;
+    font-family: HannaPro;
+    .template-header-subject {
+      position: relative;
+      left: 50%;
+      transform: translate(-50%, 0);
+      @include getFontSize(3rem);
+      font-family: HannaPro;
+    }
+    .template-header-nav {
+      display: inline-block;
+      margin-right: 7rem;
+      margin-left: auto;
+      font-family: HannaPro;
+      ul {
+        display: flex;
+        flex-direction: row;
+        li {
+          margin-left: 1rem;
+          list-style: none;
+          font-family: HannaPro;
+        }
+      }
+    }
+  }
+  footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 5rem;
+    color: black;
+    background: white;
+    border-top: 1px solid black;
+    font-family: HannaPro;
+    .footer-item-right {
+      margin-left: 2rem;
+    }
+  }
+}
+
+.content-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin: 3rem 10rem;
+  font-family: HannaPro;
   .subject-container {
     width: 30%;
     min-width: 150px;
-    max-width: 250px;
+    max-width: 200px;
     background: $oc-yellow-3;
     box-shadow: 0 8px 15px rgba(0,0,0,0.2);
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    font-family: HannaPro;
   }
   .time-history-container {
     width: 70%;
     min-width: 300px;
-    max-width: 700px;
+    max-width: 500px;
     margin-left: 2rem;
+    font-family: HannaPro;
   }
 }

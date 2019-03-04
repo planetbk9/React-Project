@@ -13,7 +13,7 @@ class HistoryContainer extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props !== nextProps;
+    return this.props.db !== nextProps.db;
   }
 
   handleClick = (date, _id) => {
@@ -31,7 +31,16 @@ class HistoryContainer extends Component {
       console.log(res);
       this.props.fetchDB(user)
       .then(res => {
-        console.log(res);
+        let dateItem, userItem;
+        const userItems = res.userItems;
+        if(userItems) {
+          userItem = userItems[userItems.length-1];
+          let dateItems = userItem.dateItems;
+          if(dateItems) {
+            dateItem = dateItems[dateItems.length-1];
+          }
+        }
+        this.props.watch_sync({date: userItem.date, dateItem});
       })
       .catch(err => {
         console.error(err);

@@ -9,29 +9,28 @@ module.exports = (app, Time) => {
   app.get('/api/getData/:user/:_id', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(err) return res.status(500).send({error: 'Find failure'});
+      if(!req.params._id || !data || !data.userItems) {
+        console.error('id or data.userItems missing.');
+        res.json({result: 0, message: 'id or data.userItems missing'});
+        return;
+      }
 
       const _id = req.params._id;
-      if(!data) {
-        res.json(null);
-        return;
-      }
       if(data._id == _id) {
         res.json(data);
-        return;
-      }
-      if(!data.useritems) {
-        res.json(null);
         return;
       }
       data.userItems.some(userItem => {
         if(userItem._id == _id) {
           res.json(userItem);
-          return;
+          return true;
         }
+        if(!userItem.dateItems) return false;
         userItem.dateItems.some(dateItem => {
+          if(!dateItem) return false;
           if(dateItem._id == _id) {
             res.json(dateItem);
-            return;
+            return true;
           }
         });
       });
@@ -41,6 +40,11 @@ module.exports = (app, Time) => {
 
   // user 없을 때, {user: String, userItems: Array} 형태로 전달
   app.post('/api/addUser', (req, res) => {
+    if(!req.body.user || !req.body.userItems) {
+      console.error('user, userItems missing.');
+      res.json({result: 0, message: 'user, userItems missing'});
+      return;
+    }
     var time = new Time();
     time.user = req.body.user;
     time.userItems = req.body.userItems;
@@ -48,7 +52,7 @@ module.exports = (app, Time) => {
     time.save((err, data) => {
       if(err) {
         console.error(err);
-        res.json({result: 0});
+        res.json({result: 0, message: 'data save error'});
         return;
       }
       res.json(data);
@@ -60,6 +64,11 @@ module.exports = (app, Time) => {
   app.put('/api/addData/:user', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(err) return res.status(500).send({error: 'Find failure'});
+      if(!req.body) {
+        console.error('req.body missing');
+        res.json({result: 0, message: 'req.body missing'});
+        return;
+      }
       const user = req.params.user;
       const userItem = req.body;
       const date = userItem.date;
@@ -79,10 +88,19 @@ module.exports = (app, Time) => {
       
       // user가 있을 경우, userItems에 추가
       let existDate = false;
+      if(!data.userItems) {
+        console.error('No data.userItems');
+        res.json({result: 0, message: 'No data.userItems'});
+        return;
+      }
       data.userItems = data.userItems.map(userItem => {
         // user에 date가 있을 경우, dateItems에 추가
         if(userItem.date === date) {
           existDate = true;
+          if(!userItem.dateItems) {
+            console.error('No userItem.dateItems');
+            res.json({result: 0, message: 'No userItem.dateItems'});
+          }
           userItem.dateItems = userItem.dateItems.concat(dateItems);
           data.save((err, data) => {
             res.json(userItem);
@@ -92,9 +110,10 @@ module.exports = (app, Time) => {
       });
       // date가 없을 경우, userItems에 새로운 userItem 추가
       if(!existDate) {
+        console.log(userItem);
         data.userItems = data.userItems.concat(userItem);
         data.save((err, data) => {
-          res.json(userItem);
+          res.json(data.userItems[data.userItems.length-1]);
         });
       }
     });
@@ -103,6 +122,11 @@ module.exports = (app, Time) => {
   // body: {subject: String, time: Number }
   app.put('/api/updateDateItem/:user/:_id', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
+      if(!req.params._id || !req.body) {
+        console.error('_id or req.body missing.');
+        res.json({result: 0, message: '_id or req.body missing'});
+        return;
+      }
       const _id = req.params._id;
       const newItem = req.body;
 
@@ -112,13 +136,15 @@ module.exports = (app, Time) => {
         return;
       }
 
-      if(!data) {
-        res.json({result: 'updateData: No data found'});
+      if(!data.userItems) {
+        console.error('No data.userItems');
+        res.json({result: 0, message: 'No data.userItems'});
         return;
       }
       let ret;
       let found = false;
       data.userItems.some(userItem => {
+        if(!userItem.dateItems) return false;
         userItem.dateItems.some(dateItem => {
           if(!dateItem) return false;
           if(String(dateItem._id) === _id) {
@@ -134,8 +160,8 @@ module.exports = (app, Time) => {
       });
       
       if(!found) {
-        res.json({result: 'No found'});
-        return true;
+        res.json({result: 0, message: 'dateItem not found _id : ' + _id});
+        return;
       } else {
         data.save((err, data) => {
           res.json(ret);
@@ -146,6 +172,11 @@ module.exports = (app, Time) => {
 
   app.delete('/api/deleteUserItem/:user/:_id', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
+      if(!req.params._id || !data || !data.userItems) {
+        console.error('id or data.userItems missing.');
+        res.json({result: 0, message: 'id or data.userItems missing'});
+        return;
+      }
       const _id = req.params._id;
       let userItems = data.userItems;
       let ret;
@@ -166,13 +197,21 @@ module.exports = (app, Time) => {
 
   app.delete('/api/deleteItem/:user/:_id', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
+      if(!req.params._id || !data || !data.userItems) {
+        console.error('id or data.userItems missing.');
+        res.json({result: 0, message: 'id or data.userItems missing'});
+        return;
+      }
+
       const _id = req.params._id;
       let userItems = data.userItems;
       let ret;
       let found = false;
 
       data.userItems = userItems.filter(userItem => {
+        if(!userItem.dateItems) return false;
         const dateItems = userItem.dateItems.filter(dateItem => {
+          if(!dateItem) return false;
           if(String(dateItem._id) === String(_id)) {
             ret = dateItem;
             return false;

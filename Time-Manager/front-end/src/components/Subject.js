@@ -22,15 +22,15 @@ class Subject extends Component {
     if(e.code === 'Enter') this.handleSubmit(e);
   }
   render() {
-    const { subjects } = this.props;
+    const { subjects, onKeyControl } = this.props;
     return (
       <div className="subject-inner-container">
         <header>
-          Subject
+          주제
         </header>
         <form className="subject-input" onSubmit={this.handleSubmit}>
-          <input className="subject-input-text" type="text" placeholder="새로운 주제를 입력하세요." onChange={this.handleChange} value={this.state.input} onKeyPress={this.handleKeyPress}></input>
-          <button className="subject-input-button" type="submit">Enter</button>
+          <input className="subject-input-text" type="text" placeholder="새로운 주제를 입력하세요." onChange={this.handleChange} value={this.state.input} onKeyPress={this.handleKeyPress} onFocus={() => onKeyControl(0)} onBlur={() => onKeyControl(1)}></input>
+          <button className="subject-input-button" type="submit"><i class="fas fa-play"></i></button>
         </form>
         <main>
           {subjects}

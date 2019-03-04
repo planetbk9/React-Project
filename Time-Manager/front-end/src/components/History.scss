@@ -8,13 +8,13 @@
   box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 
   header {
-    font-weight: 600;
+    font-weight: 400;
     text-align: center;
     background: $oc-teal-4;
     color: white;
     padding: 1rem;
     border-bottom: 1px solid $oc-grape-5;
-    @include getFontSize(3rem);
+    @include getFontSize(2rem);
   }
   .brickcontainer {
     position: relative;
@@ -37,7 +37,7 @@
     .history-item-header {
       background: $oc-teal-3;
       color: white;
-      @include getFontSize(1.5rem);
+      @include getFontSize(1rem);
       text-align: center;
     }
     .history-item-container {
@@ -55,7 +55,7 @@
         text-align: start;
         flex: 1;
         padding: 0.5rem;
-        @include getFontSize(1.2rem);
+        @include getFontSize(1rem);
         border-left: 1px solid rgba(256,256,256, 0.3);
       }
       .history-item-delete {
@@ -74,7 +74,7 @@
       }
       &:hover {
         cursor: pointer;
-        border: 1px solid $oc-pink-6;
+        background: $oc-teal-5;
         transition: all 0.3s ease-in;
       }
     }

@@ -1,5 +1,5 @@
-const getDate = () => {
-  const dateObj = new Date();
+const getDate = (dateObj) => {
+  dateObj = dateObj || new Date();
 
   let dateString = dateObj.getFullYear() + '-';
   const month = dateObj.getMonth() + 1;

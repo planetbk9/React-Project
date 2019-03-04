@@ -28,3 +28,13 @@ $small-screen: "(max-width: 700px)";
     font-size: $basic/1.5;
   }
 }
+
+@font-face {
+  font-family: "HannaPro";
+  font-style: normal;
+  src: url('../utils/font/BMHANNAPro.eot');
+  src: url('../utils/font/BMHANNAPro.eot?#iefix') format('embedded-opentype'),
+  url('../utils/font/BMHANNAPro.woff') format('woff'),
+  url('../utils/font/BMHANNAPro.ttf') format('truetype');
+  src: local(※), url('../utils/font/BMHANNAPro.woff') format('woff');
+}

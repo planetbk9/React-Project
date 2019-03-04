@@ -12,22 +12,27 @@
       border: none;
       min-width: 1rem;
       flex: 1;
+      font-family: HannaPro;
     }
     .subject-input-button {
-      background: $oc-gray-4;
+      background: $oc-yellow-5;
+      cursor: pointer;
+      width: 1rem;
+      font-size: 0.3rem;
+      text-align: center;
       outline: none;
       border: none;
     }
   }
   header {
-    font-weight: 600;
+    font-weight: 400;
     padding: 1rem;
     background: $oc-yellow-4;
     color: $oc-lime-6;
     border-bottom: 1px solid $oc-red-4;
     width: 100%;
     text-align: center;
-    @include getFontSize(3rem);
+    @include getFontSize(2rem);
   }
   main {
     display: flex;

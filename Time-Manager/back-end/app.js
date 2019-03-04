@@ -18,7 +18,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://localhost/TimeManager');  
+mongoose.connect('mongodb://localhost/Practice');  
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection Error!'));

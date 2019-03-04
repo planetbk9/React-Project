@@ -12,6 +12,10 @@ class SubjectContainer extends Component {
   componentDidMount() {
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.db != nextProps.db;
+  }
+
   handleClick = (subject) => {
     const { db, watch, watch_sync, fetchDB } = this.props;
     if(watch.state === 'progress') {
@@ -22,6 +26,25 @@ class SubjectContainer extends Component {
 
     if(dateItem) {
       watch_sync({date: watch.date, dateItem});
+    } else if(watch.dateItem.subject === '') {
+      restAPI.updateData(watch.user, watch.dateItem._id, {subject})
+      .then(res => {
+        fetchDB(watch.user)
+        .then(res => {
+          const userItem = funcs.findUserItemByDate(res.userItems, watch.date);
+          if(userItem) {
+            watch_sync({date: userItem.date, dateItem: userItem.dateItems[userItem.dateItems.length-1]});
+          } else {
+            console.error('userItem not found');
+          }
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
     } else {
       const userItem = {
         date: watch.date,
@@ -32,10 +55,11 @@ class SubjectContainer extends Component {
       }
       restAPI.addData(watch.user, userItem)
       .then(res => {
-        watch_sync({date: watch.date, dateItem: res.data.dateItems[0]});
+        if(!res || !res.data || !res.data.dateItems) throw Error('No data found');
+        console.log(res.data);
+        watch_sync({date: watch.date, dateItem: res.data.dateItems[res.data.dateItems.length - 1]});
       })
       .then(res => {
-        console.log(res);
         fetchDB(watch.user);
       })
       .catch(err => {
@@ -49,9 +73,13 @@ class SubjectContainer extends Component {
     this.props.subject_insert(subject);
   }
 
+  keyControl = (comb) => {
+    this.props.watch_keycontrol(comb);
+  }
+
   render() {
-    const { db } = this.props;
-    const { handleClick, insertSubject } = this;
+    const { db, subject } = this.props;
+    const { handleClick, insertSubject, keyControl } = this;
     
     const subjects = new Set();
     db.userItems.forEach(userItem => {
@@ -72,15 +100,17 @@ class SubjectContainer extends Component {
     return (
       <Subject
         subjects={subjectElems}
-        onInsert={insertSubject}/>
+        onInsert={insertSubject}
+        onKeyControl={keyControl}/>
     );
   }
 }
 
-const mapStateToProps = ({watch, db}) => {
+const mapStateToProps = ({watch, subject, db}) => {
   return {
-    watch: watch,
-    db: db
+    watch,
+    subject,
+    db
   };
 };
 const mapDispatchToProps = (dispatch) => bindActionCreators({...subjectActions, ...watchActions, ...dbActions}, dispatch);
