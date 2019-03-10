@@ -10,7 +10,7 @@ const getDate = (dateObj) => {
   return dateString;
 };
 
-const timeToString = (time) => {
+const timeToString = (time, secs) => {
   time = Math.floor(time / 10);
   let ms = String(time % 100);
   while (!/\d{2}/.test(ms)) ms = '0'.concat(ms);
@@ -29,8 +29,10 @@ const timeToString = (time) => {
   time = Math.floor(time /= 60);
 
   let hour = time;
+  let ret = hour + ":" + minutes + ":" + seconds;
+  if(!secs) ret += "." + ms;
 
-  return hour + ":" + minutes + ":" + seconds + "." + ms;
+  return ret;
 };
 
 const stringToTime = (str) => {
@@ -49,7 +51,7 @@ const stringToTime = (str) => {
 
 const findUserItemByDate = (userItems, date) => {
   if(!userItems) return null;
-  let ret;
+  let ret = null;
   userItems.some(userItem => {
     if(userItem.date === date) {
       ret = userItem;

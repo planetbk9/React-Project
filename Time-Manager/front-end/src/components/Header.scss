@@ -1,0 +1,70 @@
+@import 'styles/utils.scss';
+
+.template-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  height: 7rem;
+  background: white;
+  color: black;
+  border-bottom: 1px solid black;
+  font-family: HannaPro;
+  .template-header-subject {
+    @include getFontSize(3rem);
+    font-family: HannaPro;
+    cursor: pointer;
+  }
+  .template-header-nav {
+    position: absolute;
+    right: 7rem;
+    font-family: HannaPro;
+    ul {
+      display: flex;
+      flex-direction: row;
+      margin-top: 0.5rem;
+      li {
+        margin-right: 1rem;
+        list-style: none;
+        font-family: HannaPro;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.modal-subject {
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  background: $oc-red-2;
+  font-family: HannaPro;
+  font-size: 2rem;
+}
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  .modal-comment {
+    margin: 1rem auto;
+    text-align: center;
+    font-family: HannaPro;
+    font-size: 1rem;
+  }
+  .modal-input {
+    width: 15rem;
+    margin-bottom: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .modal-button {
+    width: 15rem;
+    margin: auto;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-family: HannaPro;
+  }
+}

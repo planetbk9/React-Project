@@ -1,6 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
 import funcs from 'utils/funcs';
-import * as restAPI from 'utils/restAPI';
 
 const START = 'watch/start';
 const PAUSE = 'watch/pause';
@@ -21,7 +20,6 @@ export const watch_update_db = createAction(UPDATE_DB);
 export const watch_keycontrol = createAction(KEYCONTROL);
 
 const initialState = {
-  user: 'kevin.koo',
   date: funcs.getDate(),
   dateItem: {},
   initTime: 0,
@@ -78,8 +76,14 @@ export default handleActions({
     }
   },
   [SYNC]: (state, action) => {
-    const date = action.payload['date'];
-    const dateItem = action.payload['dateItem'];
+    let date, dateItem;
+    if(!action.payload) {
+      date = funcs.getDate();
+      dateItem = {time: 0};
+    } else {
+      date = action.payload['date'];
+      dateItem = action.payload['dateItem'];
+    }
     
     return {
       ...state,
@@ -92,22 +96,6 @@ export default handleActions({
       currentTime: Date.now(),
       state: 'stop'
     };
-  },
-  [UPDATE_DB]: (state, action) => {
-    const newDateItem = {
-      ...state.dateItem,
-      ...action.payload
-    };
-    restAPI.updateData(state.user, state.dateItem._id, newDateItem)
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => {
-      console.error(err);
-    });
-    return {
-      ...state
-    }
   },
   [KEYCONTROL]: (state, action) => {
     return {

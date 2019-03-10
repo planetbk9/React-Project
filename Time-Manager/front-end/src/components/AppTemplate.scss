@@ -1,38 +1,6 @@
 @import 'styles/utils';
 
 .template-container {
-  .template-header {
-    display: flex;
-    width: 100%;
-    height: 7rem;
-    line-height: 7rem;
-    background: white;
-    color: black;
-    border-bottom: 1px solid black;
-    font-family: HannaPro;
-    .template-header-subject {
-      position: relative;
-      left: 50%;
-      transform: translate(-50%, 0);
-      @include getFontSize(3rem);
-      font-family: HannaPro;
-    }
-    .template-header-nav {
-      display: inline-block;
-      margin-right: 7rem;
-      margin-left: auto;
-      font-family: HannaPro;
-      ul {
-        display: flex;
-        flex-direction: row;
-        li {
-          margin-left: 1rem;
-          list-style: none;
-          font-family: HannaPro;
-        }
-      }
-    }
-  }
   footer {
     display: flex;
     flex-direction: row;
@@ -49,7 +17,6 @@
     }
   }
 }
-
 .content-container {
   display: flex;
   flex-direction: row;
@@ -72,4 +39,80 @@
     margin-left: 2rem;
     font-family: HannaPro;
   }
+}
+
+.report-container {
+  width: 100%;
+  min-width: 1100px;
+  padding: 3rem 10rem;
+  font-family: HannaPro;
+  .report-table-month {
+    margin-bottom: 1rem;
+    text-align: center;
+    .report-month-before {
+      margin-right: 1rem;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      &:hover {
+        background: $oc-gray-4;
+        cursor: pointer;
+      }
+    }
+    .report-month-after {
+      margin-left: 1rem;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      &:hover {
+        background: $oc-gray-4;
+        cursor: pointer;
+      }
+    }
+  }
+  .report-table {
+    display: grid;
+    grid-template-columns: repeat(8, 12.5%);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    .report-header-item {
+      text-align: center;
+      height: 1.5rem;
+      line-height: 1.5rem;
+      vertical-align: middle;
+      background: $oc-grape-5;
+      border-right: 1px solid rgba(256, 256, 256, 0.5);
+    }
+    .report-item {
+      position: relative;
+      min-height: 2rem;
+      background: $oc-grape-3;
+      border-right: 1px solid rgba(256, 256, 256, 0.5);
+      border-bottom: 1px solid rgba(256, 256, 256, 0.5);
+      .report-item-date {
+        margin-left: 2px;
+        margin-top: 2px;
+        font-size: 2px;
+      }
+      .report-item-row {
+        display: flex;
+        flex-direction: row;
+        margin: 0.2rem;
+        width: 100%;
+        .report-item-subject {
+          width: 50%;
+          margin-right: 0.3rem;
+          @include getFontSize(0.6rem);
+        }
+        .report-item-time {
+          width: 50%;
+          @include getFontSize(0.6rem);
+        }
+      }
+    }
+  }
+}
+
+.hide {
+  display: none;
 }

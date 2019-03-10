@@ -9,11 +9,8 @@ import * as restAPI from 'utils/restAPI';
 import funcs from 'utils/funcs';
 
 class HistoryContainer extends Component {
-  componentDidMount() {
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.db !== nextProps.db;
+    return this.props.db !== nextProps.db || this.props.screen !== nextProps.screen;
   }
 
   handleClick = (date, _id) => {
@@ -55,7 +52,7 @@ class HistoryContainer extends Component {
     const { db } = this.props;
     const { handleClick, handleDelete } = this;
     return (
-      <History 
+      <History
         userItems={db.userItems}
         deleteItem={handleDelete}
         loadItem={handleClick}/>
@@ -63,9 +60,10 @@ class HistoryContainer extends Component {
   }
 }
 
-const mapStateToProps = ({db}) => {
+const mapStateToProps = ({db, common}) => {
   return {
-    db: db
+    db: db,
+    screen: common.screen
   };
 };
 const mapDispatchToProps = (dispatch) => bindActionCreators({...watchActions, ...historyActions, ...dbActions}, dispatch);

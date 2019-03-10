@@ -1,4 +1,4 @@
-module.exports = (app, Time) => {
+module.exports = (app, Time, User) => {
   app.get('/api/getUserAllData/:user', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(err) return res.status(500).send({error: 'Find failure'});
@@ -38,24 +38,74 @@ module.exports = (app, Time) => {
     });
   });
 
-  // user 없을 때, {user: String, userItems: Array} 형태로 전달
+  app.get('/api/checkUser/:user', (req, res) => {
+    User.findOne({id: req.params.user}, (err, data) => {
+      if(err) return res.status(500).send({error: 'Find failure'});
+      if(data) {
+        res.json(data.id);
+        return;
+      } else {
+        res.json(null);
+        return;
+      }
+    });
+  });
+
+  app.get('/api/login/:user/:password', (req, res) => {
+    User.findOne({id: req.params.user}, (err, data) => {
+      if(err) return res.status(500).send({error: 'Find failure'});
+      if(data && data.password === req.params.password) {
+        res.json(data.id);
+        return;
+      } else if(data) {
+        res.json({result: 0, message: '비밀번호가 틀렸습니다.'});
+        return;
+      } else {
+        res.json({result: 0, message: '존재하지 않는 아이디입니다.'});
+        return;
+      }
+    });
+  });
+
   app.post('/api/addUser', (req, res) => {
-    if(!req.body.user || !req.body.userItems) {
-      console.error('user, userItems missing.');
-      res.json({result: 0, message: 'user, userItems missing'});
+    if(!req.body.id || !req.body.password) {
+      console.error('id, password missing.');
+      res.json({result: 0, message: 'user, password missing'});
       return;
     }
-    var time = new Time();
-    time.user = req.body.user;
-    time.userItems = req.body.userItems;
 
-    time.save((err, data) => {
+    let user = new User();
+    user.id = req.body.id;
+    user.password = req.body.password;
+    
+    user.save((err, data) => {
       if(err) {
         console.error(err);
         res.json({result: 0, message: 'data save error'});
         return;
       }
-      res.json(data);
+      res.json(data.id);
+    });
+  });
+
+  app.put('/api/updateUserInfo/:id/:password', (req, res) => {
+    User.findOne({id: req.params.id}, (err, data) => {
+      if(err) return res.status(500).send({error: 'Find failure'});
+      if(!req.params.id || !req.params.password) {
+        console.error('id, password missing.');
+        res.json({result: 0, message: 'user, password missing'});
+        return;
+      }
+
+      data.password = req.params.password;
+      data.save((err, data) => {
+        if(err) {
+          console.error(err);
+          res.json({result: 0, message: 'data save error'});
+          return;
+        }
+        res.json({result: 1, data: data.id});
+      });
     });
   });
 
@@ -112,8 +162,18 @@ module.exports = (app, Time) => {
       if(!existDate) {
         console.log(userItem);
         data.userItems = data.userItems.concat(userItem);
+        data.userItems.sort((a, b) => {
+          return new Date(a.date) <= new Date(b.date) ? -1 : 1;
+        });
         data.save((err, data) => {
-          res.json(data.userItems[data.userItems.length-1]);
+          let ret;
+          data.userItems.some(item => {
+            if(item.date === userItem.date) {
+              ret = item;
+              return true;
+            }
+          });
+          res.json(ret);
         });
       }
     });

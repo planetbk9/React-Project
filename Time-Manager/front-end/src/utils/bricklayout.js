@@ -19,7 +19,10 @@ function bricklayout() {
       [].forEach.call(brickContainers, function (container) {
           var containerWidth = getComputedValue(container, 'width');
           var colNum = findColNum(container);
-          if (isNaN(colNum)) return;
+          if (isNaN(colNum)) {
+            container.style.height = 0 + 'px';
+            return;
+          }
           var posX = [];
           var posY = [];
           for (var i = 0; i < colNum; i++) {
@@ -56,8 +59,6 @@ function bricklayout() {
           });
           container.style.height = totHeight + 'px';
       });
-
-      ///
 
       function findColNum(container) {
           var item1 = container.getElementsByClassName('brick-item-1')[0];

@@ -41,14 +41,17 @@
     .watch-info {
       width: 100%;
       margin-bottom: 1rem;
+      margin-top: 0.5rem;
       font-weight: 100;
       text-align: center;
       color: $oc-gray-7;
-      @include getFontSize(1.5rem);
       .watch-date {
         display: inline-block;
         position: relative;
+        margin-bottom: 0.5rem;
         color: rgba(0,0,0,0.7);
+        @include getFontSize(1rem);
+        font-weight: 300;
         .date-container {
           position: absolute;
           left: 0;
@@ -69,6 +72,7 @@
         }
       }
       .watch-subject {
+        @include getFontSize(1.5rem);
         font-weight: 600;
         color: rgba(0,0,0,1);
       }

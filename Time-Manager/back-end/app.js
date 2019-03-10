@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var Time = require('./models/time');
+var User = require('./models/user');
 var mongoose = require('mongoose');
 const cors = require('cors');
 
@@ -31,4 +32,4 @@ var server = app.listen(port, () => {
   console.log('Express server has started on port ' + port);
 });
 
-var router = require('./routes')(app, Time);
+var router = require('./routes')(app, Time, User);

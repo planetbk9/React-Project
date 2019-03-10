@@ -13,9 +13,20 @@ export const addUser = (userData) => {
   return axios.post(server + '/api/addUser', userData);
 };
 
-// User 없을 시 User 추가, 있을 시 date 비교해서 기존 date에 concat or 새로운 date에 추가
-export const addData = (user, userItem) => {
-  return axios.put(server + '/api/addData/' + user, userItem);
+export const checkUser = (id) => {
+  return axios.get(server + '/api/checkUser/' + id);
+};
+
+export const loginUser = (id, password) => {
+  return axios.get(server + '/api/login/' + id + '/' + password);
+}
+
+export const changeUserInfo = (id, password) => {
+  return axios.put(server + '/api/updateUserInfo/' + id + '/' + password);
+}
+
+export const addData = (user, userInfo) => {
+  return axios.put(server + '/api/addData/' + user, userInfo);
 };
 
 export const updateData = (user, _id, dateItem) => {

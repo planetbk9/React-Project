@@ -30,7 +30,7 @@ class Subject extends Component {
         </header>
         <form className="subject-input" onSubmit={this.handleSubmit}>
           <input className="subject-input-text" type="text" placeholder="새로운 주제를 입력하세요." onChange={this.handleChange} value={this.state.input} onKeyPress={this.handleKeyPress} onFocus={() => onKeyControl(0)} onBlur={() => onKeyControl(1)}></input>
-          <button className="subject-input-button" type="submit"><i class="fas fa-play"></i></button>
+          <button className="subject-input-button" type="submit"><i className="fas fa-play"></i></button>
         </form>
         <main>
           {subjects}

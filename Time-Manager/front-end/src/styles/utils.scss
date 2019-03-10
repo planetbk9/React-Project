@@ -1,9 +1,17 @@
 @import 'open-color/open-color.scss';
 
-body, header, h1, h2, h3, h4, h5, h6, div, main, p, button, a, li, ul, ol, div {
+body, header, h1, h2, h3, h4, h5, h6, div, main, p, button, a, li, ul, ol, div, nav, table, td, th, tbody, thead {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+table, td, th, tbody, thead {
+  border: 0;
+  outline: 0;
+  border-spacing: 0;
+}
+*::-webkit-scrollbar {
+  width: 1px;
 }
 p {
   word-break: break-all;

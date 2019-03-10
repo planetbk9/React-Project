@@ -13,7 +13,7 @@ class SubjectContainer extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.db != nextProps.db;
+    return this.props.db !== nextProps.db;
   }
 
   handleClick = (subject) => {
@@ -27,9 +27,9 @@ class SubjectContainer extends Component {
     if(dateItem) {
       watch_sync({date: watch.date, dateItem});
     } else if(watch.dateItem.subject === '') {
-      restAPI.updateData(watch.user, watch.dateItem._id, {subject})
+      restAPI.updateData(db.user, watch.dateItem._id, {subject})
       .then(res => {
-        fetchDB(watch.user)
+        fetchDB(db.user)
         .then(res => {
           const userItem = funcs.findUserItemByDate(res.userItems, watch.date);
           if(userItem) {
@@ -53,14 +53,14 @@ class SubjectContainer extends Component {
           time: 0
         }]
       }
-      restAPI.addData(watch.user, userItem)
+      restAPI.addData(db.user, userItem)
       .then(res => {
         if(!res || !res.data || !res.data.dateItems) throw Error('No data found');
         console.log(res.data);
         watch_sync({date: watch.date, dateItem: res.data.dateItems[res.data.dateItems.length - 1]});
       })
       .then(res => {
-        fetchDB(watch.user);
+        fetchDB(db.user);
       })
       .catch(err => {
         console.error(err);
@@ -74,11 +74,11 @@ class SubjectContainer extends Component {
   }
 
   keyControl = (comb) => {
-    this.props.watch_keycontrol(comb);
+    this.props.watch_keycontrol(comb);  
   }
 
   render() {
-    const { db, subject } = this.props;
+    const { db } = this.props;
     const { handleClick, insertSubject, keyControl } = this;
     
     const subjects = new Set();

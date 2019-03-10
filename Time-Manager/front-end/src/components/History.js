@@ -13,6 +13,7 @@ class History extends Component {
   }
   componentDidMount() {
     window.addEventListener('resize', this.onResize);
+    window.setTimeout(bricklayout(), 200);
   }
   shouldComponentUpdate(nextProps, nextState) {
     // 최적화 필요

@@ -42,7 +42,7 @@ class StopWatchContainer extends Component {
   }
   
   changeTime = () => {
-    const { db, time, date, dateItem, watch_sync } = this.props;
+    const { user, time, date, dateItem, watch_sync } = this.props;
     let newTime = window.prompt("변경할 시간을 00:00:00.00 형태로 입력하세요.", funcs.timeToString(time));
     newTime = funcs.stringToTime(newTime);
     if(!newTime) {
@@ -51,7 +51,7 @@ class StopWatchContainer extends Component {
     }
     dateItem.time = newTime;
     watch_sync({date, dateItem});
-    this.saveTime(db.user, true, newTime);
+    this.saveTime(user, true, newTime);
   }
 
   saveTime = (user, force, newTime) => {
@@ -111,7 +111,7 @@ class StopWatchContainer extends Component {
   }
 
   changeDate = (dateObj) => {
-    const userItems = this.props.db.userItems;
+    const userItems = this.props.userItems;
     const date = funcs.getDate(dateObj);
     let userItem = funcs.findUserItemByDate(userItems, date);
     let dateItem = null;
@@ -142,39 +142,6 @@ class StopWatchContainer extends Component {
     window.addEventListener('focus', this.onFocus);
     window.addEventListener('beforeunload', this.onBeforeUnload);
     this.changeKeyComb(1);
-    
-    const { user, watch_sync, fetchDB } = this.props;
-    const today = funcs.getDate();
-    restAPI.getUserAllData(user)
-    .then(res => {
-      let existDate = false;
-      if(!res || !res.data || !res.data.userItems) throw new Error('user data missing');
-      res.data.userItems.some(userItem => {
-        if(userItem.date === today) {
-          if(userItem.dateItems) {
-            fetchDB(user);
-            watch_sync({date: userItem.date, dateItem: userItem.dateItems[userItem.dateItems.length-1]});
-          }
-          existDate = true;
-          return true;
-        }
-        return false;
-      });
-      if(!existDate) {
-        restAPI.addData(user, {date: today, dateItems: [{subject: '', time: 0}]})
-        .then(res => {
-          fetchDB(user)
-          .then(res => {
-            if(!res || !res.userItems) return null;
-            const userItem = funcs.findUserItemByDate(res.userItems, today);
-            if(userItem) watch_sync({date: userItem.date, dateItem: userItem.dateItems[userItem.dateItems.length-1]});
-          });
-        });
-      }
-    })
-    .catch(err => {
-      console.error(err);
-    })
   }
 
   componentWillUnmount() {
@@ -216,7 +183,7 @@ class StopWatchContainer extends Component {
 const mapStateToProps = ({watch, db}) => ({
   ...watch,
   time: watch.initTime + watch.currentTime - watch.startTime - watch.stoppedTime,
-  db: db
+  ...db
 });
 const mapDispatchToProps = (dispatch) => bindActionCreators({...watchActions, ...dbActions}, dispatch);
 
