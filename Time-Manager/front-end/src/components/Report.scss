@@ -1,0 +1,115 @@
+@import 'styles/utils';
+
+%month-arrow {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  cursor: pointer;
+  &:hover {
+    @extend %item-hover;
+  }
+}
+$border: 1px solid $primary-color;
+
+.report-container {
+  padding: 7rem 0;
+  margin: 0 auto;
+  @include reponsiveScreen();
+  .report-table-month {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    text-align: center;
+    .report-month-before {
+      @extend %month-arrow;
+      margin-right: 1rem;
+    }
+    .report-month-after {
+      @extend %month-arrow;
+      margin-left: 1rem;
+    }
+  }
+  .report-table {
+    display: grid;
+    grid-template-columns: repeat(8, 12.5%);
+    border-top: $border;
+    border-left: $border;
+    .report-header-item {
+      text-align: center;
+      height: 1.5rem;
+      line-height: 1.5rem;
+      vertical-align: middle;
+      background: $primary-color;
+      color: $secondary-color;
+      border-bottom: $border;
+    }
+    .report-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 3rem;
+      border-right: $border;
+      border-bottom: $border;
+      .report-item-date {
+        position: absolute;
+        left: 0.125rem;
+        top: 0.125rem;
+        font-size: 0.125rem;
+      }
+      .report-item-data {
+        font-size: 0.7rem;
+      }
+    }
+  }
+  .report-mention {
+    margin-top: 5rem;
+    text-align: center;
+  }
+  .report-detail-container {
+    margin: 5rem auto;
+    margin-top: 7rem;
+    .report-detail-boundary {
+      display: inline-block;
+      width: 50%;
+      padding: 1rem;
+      .report-detail-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: $border;
+        padding: 1rem;
+        background: $primary-color;
+        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
+        .detail-date {
+          font-size: 1rem;
+          margin-bottom: 1rem;
+          color: $secondary-color;
+        }
+        .detail-content-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          width: 100%;
+          background: $secondary-color;
+          border: $border;
+          padding: 0.5rem 1rem;
+          margin-bottom: 1rem;
+          .detail-content-subject {
+            padding-right: 2rem;
+          }
+          .detail-content-time {
+            padding-right: 2rem;
+            font-family: $digit-font;
+          }
+        }
+        .detail-summary {
+          font-size: 1rem;
+          color: $secondary-color;
+        }
+      }
+    }
+  }
+}

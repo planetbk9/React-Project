@@ -1,57 +1,30 @@
 @import 'styles/utils.scss';
 
-.datepicker {
-  background: $oc-blue-3;
-  outline: none;
-}
 .watch-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
-  margin: 0;
-  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-
-  header {
-    font-weight: 400;
-    padding: 1rem;
-    background: $oc-blue-7;
-    color: white;
-    border-bottom: 1px solid $oc-orange-4;
-    width: 100%;
-    text-align: center;
-    @include getFontSize(2rem);
-    font-family: HannaPro;
+  margin: 0 auto;
+  @include reponsiveScreen();
+  .watch-mention {
+    font-size: $bigfont-size;
+    margin-bottom: 3rem;
   }
-
-  main {
+  section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    font-weight: 400;
-    background: $oc-blue-3;
     width: 100%;
-    padding: 1rem;
-    font-family: HannaPro;
-
     .watch-info {
-      width: 100%;
-      margin-bottom: 1rem;
-      margin-top: 0.5rem;
-      font-weight: 100;
-      text-align: center;
-      color: $oc-gray-7;
       .watch-date {
         display: inline-block;
         position: relative;
-        margin-bottom: 0.5rem;
-        color: rgba(0,0,0,0.7);
-        @include getFontSize(1rem);
-        font-weight: 300;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        font-family: 'Space Mono';
         .date-container {
           position: absolute;
           left: 0;
@@ -72,36 +45,39 @@
         }
       }
       .watch-subject {
-        @include getFontSize(1.5rem);
-        font-weight: 600;
-        color: rgba(0,0,0,1);
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
       }
     }
     .watch-time {
       width: 100%;
-      color: $oc-blue-1;
-      font-weight: 600;
       margin-bottom: 2rem;
       text-align: center;
-      font-family: monospace;
-      @include getFontSize(4rem);
+      .watch-time-string {
+        display: inline-block;
+        font-family: 'Space Mono', monospace;
+        font-size: 2rem;
+        cursor: pointer;
+      }
     }
     .watch-control {
-      width: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
       button {
         width: 4rem;
         height: 4rem;
         border: none;
         outline: none;
-        background: $oc-blue-9;
-        color: white;
+        background: $primary-color;
+        color: $secondary-color;
         border-radius: 50%;
-        font-family: HannaPro;
-        &:hover {
-          background: $oc-gray-7;
-          cursor: pointer;
-          transition: all 0.3s ease-in;
-        }
+        font-family: 'Space Mono';
+        cursor: pointer;
+      }
+      .second-item {
+        margin-left: 3rem;
       }
       #watch-on-stop {
         display: flex;
@@ -109,12 +85,8 @@
       }
       #watch-on-progress {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
       }
     }
   }
-}
-
-.watch-hidden {
-  display: none;
 }

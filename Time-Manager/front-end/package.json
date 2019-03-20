@@ -4,10 +4,12 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "core-js": "^3.0.0",
     "mongoose": "^5.4.6",
     "node-sass": "^4.11.0",
     "open-color": "^1.6.3",
     "react": "^16.7.0",
+    "react-app-polyfill": "^0.2.2",
     "react-datepicker": "^2.1.0",
     "react-dom": "^16.7.0",
     "react-modal": "^3.8.1",
@@ -20,11 +22,11 @@
     "sass-loader": "^7.1.0"
   },
   "scripts": {
-    "start": "PORT=9010 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "stop": "fuser -k -n tcp 9010"
+    "stop": "fuser -k -n tcp 3000"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,0 +1,31 @@
+@import 'styles/utils';
+
+.main-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  img {
+    display: inline-block;
+    position: absolute;
+    opacity: 1;
+    @media (orientation: portrait) {
+      height: 100vh;
+      transform: translateX(calc(50vw - 50%));
+    }
+    @media (orientation: landscape) {
+      width: 100vw;
+      transform: translateY(calc(50vh - 50%));
+    }
+  }
+  .main-mention {
+    position: fixed;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: $secondary-color;
+    font-size: 1rem;
+    font-weight: 300;
+    text-align: center;
+  }
+}

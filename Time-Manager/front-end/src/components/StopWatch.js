@@ -8,13 +8,15 @@ class StopWatch extends Component {
   render() {
     const { time, onStart, onPause, onReset, onResume, onAdjust, state, date, subject, changeDate } = this.props;
     const timeString = funcs.timeToString(time);
-    const resumeBtnStr = state === 'pause' ? '재개' : '정지';
+    const resumeBtnStr = state === 'pause' ? 'Resume' : 'Stop';
     const resumeBtnCb = state === 'progress' ? onPause : onResume;
 
     return (
       <div className="watch-container">
-        <header>초시계</header>
-        <main>
+        <h2 className="watch-mention">
+          단축키는 '스페이스바'입니다!
+        </h2>
+        <section>
           <div className="watch-info">
             <div className="watch-date">{date}
               <div className="date-container">
@@ -23,23 +25,23 @@ class StopWatch extends Component {
             </div>
             <div className="watch-subject">{subject}</div>
           </div>
-          <div className="watch-time" onClick={onAdjust}>
-            <p>{timeString}</p>
+          <div className="watch-time">
+            <h2 className="watch-time-string" onClick={onAdjust}>{timeString}</h2>
           </div>
           <div className="watch-control">
-            <div className={`${state !== 'stop' ? 'watch-hidden' : ''}`}>
+            {
+              state === 'stop' ?
               <div id="watch-on-stop">
-                <button id="watch-start" onClick={onStart}>시작</button>
+                <button id="watch-start" onClick={onStart}>Start</button>
               </div>
-            </div>
-            <div className={`${state === 'stop' ? 'watch-hidden' : ''}`}>
+              :
               <div id="watch-on-progress">
-                <button id="watch-reset" onClick={onReset}>리셋</button>
-                <button id="watch-resume" onClick={resumeBtnCb}>{resumeBtnStr}</button>
+                <button id="watch-reset" onClick={onReset}>Reset</button>
+                <button id="watch-resume" className="second-item" onClick={resumeBtnCb}>{resumeBtnStr}</button>
               </div>
-            </div>
+            }
           </div>
-        </main>
+        </section>
       </div>
     );
   }

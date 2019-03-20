@@ -3,80 +3,81 @@
 .history-container {
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
-  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-
-  header {
-    font-weight: 400;
+  align-items: center;
+  margin: 0 auto;
+  padding: 10rem 0;
+  @include reponsiveScreen();
+  .history-mention {
+    font-size: $bigfont-size;
     text-align: center;
-    background: $oc-teal-4;
-    color: white;
-    padding: 1rem;
-    border-bottom: 1px solid $oc-grape-5;
-    @include getFontSize(2rem);
+  }
+  .history-logout-mention {
+    font-size: 1rem;
+    margin-top: 1rem;
+    text-align: center;
   }
   .brickcontainer {
     position: relative;
-    background: $oc-teal-1;
-
+    width: 100%;
+    margin-top: 3rem;
     .brick-item-common {
       position: absolute;
       padding: 1rem;
-      vertical-align: baseline;
-      color: gray;
-      display: flex;
-      flex-direction: column;
+      padding-bottom: 0;
+      .example-message {
+        margin-bottom: 1rem;
+      }
+      .brick-wrapper {
+        display: flex;
+        flex-direction: column;  
+        background: $primary-color;
+        border: 1px solid $primary-color;
+        padding: 1rem;
+        padding-bottom: 0;
+        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
+        .history-item-header {
+          font-family: 'Space Mono', sans-serif;
+          font-size: 1rem;
+          text-align: center;
+          color: $secondary-color;
+          margin-bottom: 1rem;
+        }
+        .history-item-container {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          background: $secondary-color;
+          border: 1px solid $primary-color;
+          padding: 0.5rem 1rem;
+          margin-bottom: 1rem;
+          cursor: pointer;
+          &:active {
+            background: $oc-orange-1;
+          }
+          .history-item-subject {
+            padding-right: 2rem;
+          }
+          .history-item-time {
+            padding-right: 2rem;
+            font-family: 'Space Mono', sans-serif;
+          }
+          .history-item-delete {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1rem;
+            height: 1rem;
+          }
+        }
+      }
     }
     .brick-item-1 {
       width: 25%;
     }
     .brick-item-2 {
       width: 50%;
-    }
-    .history-item-header {
-      background: $oc-teal-3;
-      color: white;
-      @include getFontSize(1rem);
-      text-align: center;
-    }
-    .history-item-container {
-      display: flex;
-      flex-direction: row;
-      background: $oc-teal-2;
-      border-bottom: 1px solid rgba(256, 256, 256, 0.3);
-      .history-item-subject {
-        text-align: start;
-        flex: 1;
-        padding: 0.5rem;
-        @include getFontSize(1rem);
-      }
-      .history-item-time {
-        text-align: start;
-        flex: 1;
-        padding: 0.5rem;
-        @include getFontSize(1rem);
-        border-left: 1px solid rgba(256,256,256, 0.3);
-      }
-      .history-item-delete {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-right: 5px;
-        font-size: 1rem;
-        opacity: 0;
-        color: $oc-red-6;
-        &:hover {
-          opacity: 0.7;
-          cursor: pointer;
-          transition: all 0.3s ease-in;
-        }
-      }
-      &:hover {
-        cursor: pointer;
-        background: $oc-teal-5;
-        transition: all 0.3s ease-in;
-      }
     }
   }
 }

@@ -1,3 +1,3 @@
-const port = 9009;
-const server = 'http://kevin9.iptime.org:' + port;
+const port = 9000;
+const server = 'http://localhost:' + port;
 export default server;

@@ -1,58 +1,71 @@
 @import 'styles/utils';
 
-.subject-inner-container {
+.subject-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding: 8rem 0;
+  @include reponsiveScreen();
+  .subject-mention {
+    margin-bottom: 4rem;
+    font-size: $bigfont-size;
+  }
   .subject-input {
     display: flex;
-    flex-direction: row;
-    height: 1.5rem;
-    width: 100%;
+    border: 1px solid $primary-color;
+    @media #{$wide-screen} {
+      width: 50%;
+    }
+    @media (min-width: 501px) and (max-width: 1024px) {
+      width: 80%;
+    }
+    @media (max-width: 500px) {
+      width: 100%;
+    }
     .subject-input-text {
-      background: $oc-yellow-1;
-      outline: none;
+      width: 100%;
+      color: gray;
+      background: rgba(244, 101, 105, 0.5);
       border: none;
-      min-width: 1rem;
-      flex: 1;
-      font-family: HannaPro;
+      outline: none;
+      font-size: 1rem;
+      padding: 1rem;
+      padding-left: 1rem;
     }
     .subject-input-button {
-      background: $oc-yellow-5;
-      cursor: pointer;
-      width: 1rem;
-      font-size: 0.3rem;
-      text-align: center;
-      outline: none;
+      width: 3rem;
+      background: rgba(244, 101, 105, 0.5);
       border: none;
+      border-left: 1px solid $secondary-color;
+      outline: none;
+      padding: 0.5rem;
+      cursor: pointer;
+      img {
+        display: block;
+        width: 100%;
+      }
     }
   }
-  header {
-    font-weight: 400;
-    padding: 1rem;
-    background: $oc-yellow-4;
-    color: $oc-lime-6;
-    border-bottom: 1px solid $oc-red-4;
-    width: 100%;
-    text-align: center;
-    @include getFontSize(2rem);
-  }
-  main {
+  .subject-item-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: flex-start;
-    padding: 1rem;
-
+    align-content: flex-start;
+    width: 25rem;
+    margin-top: 2rem;
     .subject-item {
-      width: 100%;
-      margin-bottom: 1rem;
-      background: $oc-yellow-2;
-      border-radius: 2rem;
+      padding: 0.5rem;
+      background: rgba(0,0,0,0);
+      border: 1px solid $primary-color;
+      border-radius: 1rem;
+      outline: none;
+      font-size: 1rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
       cursor: pointer;
-      padding: 1rem;
-      @include getFontSize(1rem);
-      
       &:hover {
-        background: $oc-yellow-6;
-        transition: all 0.3s ease-in;
+        @extend %item-hover;
       }
     }
   }

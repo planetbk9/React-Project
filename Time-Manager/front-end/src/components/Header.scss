@@ -1,36 +1,109 @@
-@import 'styles/utils.scss';
+@import "styles/utils.scss";
+
+$header-margin: 3.5rem;
 
 .template-header {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 7rem;
-  background: white;
-  color: black;
-  border-bottom: 1px solid black;
-  font-family: HannaPro;
+  .template-header-logo {
+    margin-left: $header-margin;
+    img {
+      display: block;
+      width: 3rem;
+      height: 3rem;
+    }
+  }
   .template-header-subject {
-    @include getFontSize(3rem);
-    font-family: HannaPro;
+    font-family: $header-font;
+    font-weight: 400;
+    font-size: 3rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     cursor: pointer;
   }
   .template-header-nav {
-    position: absolute;
-    right: 7rem;
-    font-family: HannaPro;
+    display: flex;
+    justify-content: center;
+    margin-right: $header-margin;
+    .template-header-greeting {
+      margin-bottom: 1rem;
+    }
     ul {
       display: flex;
-      flex-direction: row;
-      margin-top: 0.5rem;
+      justify-content: flex-start;
       li {
-        margin-right: 1rem;
+        margin-right: 0.5rem;
         list-style: none;
-        font-family: HannaPro;
-        cursor: pointer;
       }
+    }
+    .nav-button {
+      padding: 0.5rem;
+      background: rgba(0, 0, 0, 0);
+      border: 1px solid $primary-color;
+      border-radius: 5px;
+      cursor: pointer;
+      &:hover {
+        @extend %item-hover;
+      }
+    }
+  }
+  .template-header-nav-small {
+    position: relative;
+    margin-right: $header-margin;
+    cursor: pointer;
+    img {
+      display: block;
+      width: 1.5rem;
+    }
+    .nav-dropdown-container {
+      position: absolute;
+      top: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.3s ease-in;
+      .dropdown-item {
+        width: 5rem;
+        padding: 0.5rem;
+        margin-bottom: 0.2rem;
+        background: rgba(0, 0, 0, 0);
+        border: 1px solid $primary-color;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover {
+          @extend %item-hover;
+        }
+      }
+    }
+  }
+  @media (min-width: 801px) {
+    .template-header-nav-small {
+      display: none;
+    }
+  }
+  @media (min-width: 551px) and (max-width: 800px) {
+    .template-header-subject {
+      font-size: 2rem;
+    }
+    .template-header-nav {
+      display: none;
+    }
+  }
+  @media (max-width: 550px) {
+    .template-header-subject {
+      font-size: 2rem;
+    }
+    .template-header-nav {
+      display: none;
+    }
+    .template-header-nav-small {
+      margin-right: 2rem;
     }
   }
 }
@@ -39,9 +112,9 @@
   width: 100%;
   padding: 1rem;
   text-align: center;
-  background: $oc-red-2;
+  background: $secondary-color;
   font-family: HannaPro;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 .modal-form {
   display: flex;
@@ -59,12 +132,22 @@
     margin-bottom: 0.5rem;
     margin-left: auto;
     margin-right: auto;
+    border: 1px solid $primary-color;
+    outline: none;
+    font-family: sans-serif;
   }
   .modal-button {
-    width: 15rem;
+    width: 5rem;
+    padding: 0.5rem;
     margin: auto;
     margin-bottom: 1rem;
     text-align: center;
+    background: $secondary-color;
+    color: $primary-color;
+    border: 1px solid $secondary-color;
     font-family: HannaPro;
+    &:hover {
+      @extend %item-hover;
+    }
   }
 }

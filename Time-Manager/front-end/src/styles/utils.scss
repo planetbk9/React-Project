@@ -1,14 +1,33 @@
 @import 'open-color/open-color.scss';
 
-body, header, h1, h2, h3, h4, h5, h6, div, main, p, button, a, li, ul, ol, div, nav, table, td, th, tbody, thead {
+$primary-color: #F46569;
+$secondary-color: #BEE5FB;
+$header-font: 'Dancing Script', sans-serif;
+$korean-font: 'HannaPro', sans-serif;
+$digit-font: 'Space Mono', sans-serif;
+$bigfont-size: 2rem;
+$container-width: 60%;
+
+%item-hover {
+  background: $primary-color;
+  color: $secondary-color;
+  transition-property: background, color;
+  transition-duration: 0.3s; 
+  transition-timing-function: ease-in;
+}
+
+body, header, h1, h2, h3, h4, h5, h6, div, main, p, button, a, li, ul, ol, div, nav, table, td, th, tbody, thead, input {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: $primary-color;
+  font-family: $korean-font;
 }
-table, td, th, tbody, thead {
-  border: 0;
-  outline: 0;
-  border-spacing: 0;
+button:focus {
+  outline: none;
+}
+body {
+  background: $secondary-color;
 }
 *::-webkit-scrollbar {
   width: 1px;
@@ -34,6 +53,21 @@ $small-screen: "(max-width: 700px)";
   }
   @media #{$small-screen} {
     font-size: $basic/1.5;
+  }
+}
+
+@mixin reponsiveScreen() {
+  width: 60%;
+  @media #{$wide-screen} {
+    width: 60%;
+  }
+  @media #{$middle-screen} {
+    width: 60%;
+  }
+  @media #{$small-screen} {
+    width: 100%;
+    padding-right: 1rem;
+    padding-left: 1rem;
   }
 }
 

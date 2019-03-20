@@ -1,5 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import * as restAPI from 'utils/restAPI';
+import funcs from 'utils/funcs';
 
 const PAGE = 'common/page';
 const MODAL = 'common/modal';
@@ -27,9 +28,16 @@ export const registerUser = (id, password) => dispatch => {
     return restAPI.addUser(res);
   })
   .then(res => {
-    if(!res) throw new Error('response is null');
-    else dispatch(common_login(res.data));
-    return res.data;
+    console.log(res);
+    const user = res.data;
+    const userItem = Object.assign({}, {date: funcs.getDate(), dateItems: [{ subject: '', time: 0 }]});
+    return restAPI.addData(user, userItem);
+  })
+  .then(res => {
+    console.log(res);
+    if(!id) throw new Error('response is null');
+    else dispatch(common_login(id));
+    return id;
   });
 };
 
@@ -91,7 +99,6 @@ export default handleActions({
     sessionStorage.setItem("timemanager_loggedin", action.payload);
     return {
       ...state,
-      user: action.payload,
       state: 'login'
     }
   },
@@ -99,8 +106,6 @@ export default handleActions({
     sessionStorage.removeItem("timemanager_loggedin");
     return {
       ...state,
-      user: '',
-      userItems: [],
       state: 'logout'
     }
   },

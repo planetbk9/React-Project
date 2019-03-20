@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import './Header.scss';
+import menu from 'resource/menu.svg';
 
 class Header extends Component {
   state = {
@@ -8,29 +9,27 @@ class Header extends Component {
     password: '',
     confirm: ''
   }
-  
   onInput = (e, domain) => {
     this.setState({
       ...this.state,
       [domain]: e.target.value
     });
   }
-
   onSubmit = (e, modalType) => {
     e.preventDefault();
     const { id, password, confirm } = this.state;
 
-    if(modalType === 'membership') {
-      if(id.length < 5) {
+    if (modalType === 'membership') {
+      if (id.length < 5) {
         alert('아이디는 5글자 이상으로 해주세요.');
         return;
       }
-      if(password.length < 5 || confirm.length < 5) {
+      if (password.length < 5 || confirm.length < 5) {
         alert('비밀번호는 5글자 이상으로 해주세요.');
         return;
       }
-    } else if(modalType === 'changePwd') {
-      if(password.length < 5 || confirm.length < 5) {
+    } else if (modalType === 'changePwd') {
+      if (password.length < 5 || confirm.length < 5) {
         alert('비밀번호는 5글자 이상으로 해주세요.');
         return;
       }
@@ -43,48 +42,57 @@ class Header extends Component {
       confirm: ''
     });
 
-    if(modalType === 'membership') {
-      if(password !== confirm) {
+    if (modalType === 'membership') {
+      if (password !== confirm) {
         alert('비밀번호를 다르게 입력하셨습니다.');
         return;
       }
       this.props.onResister(id, password)
-      .then(res => {
-        console.log(res);
-        
-      })
-      .catch(err => {
-        console.error(err);
-      });
-    } else if(modalType === 'login'){
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    } else if (modalType === 'login') {
       this.props.onLogin(id, password)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-    } else if(modalType === 'changePwd'){
-      if(password !== confirm) {
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    } else if (modalType === 'changePwd') {
+      if (password !== confirm) {
         alert('비밀번호를 다르게 입력하셨습니다.');
         return;
       }
       this.props.onChangePwd(this.props.user, password)
-      .then(id => {
-        alert(id + '의 비밀번호가 변경되었습니다.');
-      })
-      .catch(err => {
-        console.error(err);
-      });
+        .then(id => {
+          alert(id + '의 비밀번호가 변경되었습니다.');
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  }
+  toggleSmallNav = () => {
+    const style = document.getElementById('nav-dropdown-container').style;
+    if(style.display === 'none' || !style.display) {
+      style.display = 'flex';
+      style.opacity = 1;
+    } else {
+      style.display = 'none';
+      style.opacity = 0;
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     Modal.setAppElement('#root');
   }
 
-  render () {
-    const { user, modal, modalType, handleModal, state, onLogout, onChangePage } = this.props;
+  render() {
+    const { modal, modalType, handleModal, onChangePage, Navigator, SmallNavigator } = this.props;
     const modalSubject = modalType === 'login' ? '로그인' : modalType === 'membership' ? '회원가입' : '비번변경';
 
     const modalStyle = {
@@ -98,41 +106,34 @@ class Header extends Component {
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
         padding: '0',
-        margin: '0'
+        margin: '0',
+        border: '1px solid #F46569',
+        outline: 'none'
       }
     };
 
     return (
-    <header className="template-header">
-        <div className="template-header-subject" onClick={()=>{onChangePage(0)}}><i className="far fa-clock"></i> 타임매니저</div>
+      <header className="template-header">
+        <div className="template-header-logo"></div>
+        <div className="template-header-subject" onClick={() => { onChangePage(0) }}>Time Manager</div>
         <nav className="template-header-nav">
-          {state === 'logout' ?  
-          <ul>
-            <li onClick={() => {handleModal(true, 'login')}}>로그인</li>
-            <li onClick={() => {handleModal(true, 'membership')}}>회원가입</li>
-          </ul>
-          :
-          <div>
-          <div>{user}님 반가워요!</div>
-          <ul>
-            <li onClick={() => {onChangePage(1)}}>리포트</li>
-            <li onClick={() => {handleModal(true, 'changePwd')}}>비밀번호 변경</li>
-            <li onClick={onLogout}>로그아웃</li>
-          </ul>
-          </div>
-          }
+          {Navigator}
         </nav>
-        <Modal isOpen={modal} onRequestClose={() => {handleModal(!modal)}} style={modalStyle} contentLabel="Time Manager">
+        <nav className="template-header-nav-small" onClick={this.toggleSmallNav}>
+          <img src={menu} alt="menu"/>
+          {SmallNavigator}
+        </nav>
+        <Modal isOpen={modal} onRequestClose={() => { handleModal(!modal) }} style={modalStyle} contentLabel="Time Manager">
           <h2 className="modal-subject">{modalSubject}</h2>
           <form className="modal-form" onSubmit={(e) => this.onSubmit(e, modalType)}>
             <p className="modal-comment">내 시간은 내가 관리한다!</p>
-            {modalType !== 'changePwd' ? <input className="modal-input" type="text" placeholder="아이디" value={this.state.id} onChange={(e) => {this.onInput(e, 'id');}}></input> : ''}
-            <input className="modal-input" type="password" placeholder="비밀번호" value={this.state.password} onChange={(e) => {this.onInput(e, 'password');}}></input>
-            {modalType !== 'login' ? <input className="modal-input" type="password" placeholder="비밀번호 확인" value={this.state.confirm} onChange={(e) => {this.onInput(e, 'confirm');}}></input> : ''}
+            {modalType !== 'changePwd' ? <input className="modal-input" type="text" placeholder="아이디" value={this.state.id} onChange={(e) => { this.onInput(e, 'id'); }}></input> : ''}
+            <input className="modal-input" type="password" placeholder="비밀번호" value={this.state.password} onChange={(e) => { this.onInput(e, 'password'); }}></input>
+            {modalType !== 'login' ? <input className="modal-input" type="password" placeholder="비밀번호 확인" value={this.state.confirm} onChange={(e) => { this.onInput(e, 'confirm'); }}></input> : ''}
             <button className="modal-button" type="submit">등록!</button>
           </form>
         </Modal>
-    </header>
+      </header>
     );
   }
 }

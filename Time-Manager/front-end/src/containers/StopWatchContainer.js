@@ -55,8 +55,19 @@ class StopWatchContainer extends Component {
   }
 
   saveTime = (user, force, newTime) => {
-    if(!user) return;
-    const { time, dateItem, fetchDB } = this.props;
+    const { time, date, dateItem } = this.props;
+    // Guest mode 동작
+    if(!user) {
+      const subject = dateItem.subject;
+      if(!subject) return;
+      let guestSubjectList = sessionStorage.getItem('timemanager_list') || '';
+      if(guestSubjectList.indexOf(subject) === -1) {
+        guestSubjectList += guestSubjectList === '' ? subject : ':' + subject;
+      }
+      sessionStorage.setItem('timemanager_list', guestSubjectList);
+      sessionStorage.setItem('timemanager_'+subject, time);
+      return;
+    }
     const _id = dateItem._id;
 
     restAPI.getData(user, _id)
@@ -65,8 +76,7 @@ class StopWatchContainer extends Component {
         dateItem.time = newTime;
         restAPI.updateData(user, _id, dateItem)
         .then(res => {
-          console.log(res);
-          fetchDB(user);
+          this.props.db_update({date, _id, newObj: res.data.dateItem});
         })
         .catch(err => {
           console.error(err);
@@ -76,8 +86,7 @@ class StopWatchContainer extends Component {
           dateItem.time = time;
           restAPI.updateData(user, _id, dateItem)
           .then(res => {
-            console.log(res);
-            fetchDB(user);
+            this.props.db_update({date, _id, newObj: res.data.dateItem});
           })
           .catch(err => {
             console.error(err);
@@ -92,9 +101,9 @@ class StopWatchContainer extends Component {
 
   onBlur = () => {this.stopTime(); if(this.props.state === 'progress') this.forceStop = true;}
   onFocus = () => {if(this.forceStop) {this.countTime();this.forceStop = false;} };
-  onBeforeUnload = () => {this.saveTime(this.props.user, false);}; // update DB before unload
-  onKeyCommon = (e) => {if(e.code !== 'Space') return; e.stopPropagation();e.preventDefault();};
-  onKeyup = (e) => {if(e.code !== 'Space') return; this.onKeyCommon(e);
+  onBeforeUnload = (e) => {this.saveTime(this.props.user, false);}; // update DB before unload
+  onKeyCommon = (e) => {if(e.keyCode !== 32) return; e.stopPropagation();e.preventDefault();};
+  onKeyup = (e) => {if(e.keyCode !== 32) return; this.onKeyCommon(e);
     this.props.state === 'progress' ? this.handlePause() : this.props.state === 'stop' ? this.handleStart() : this.handleResume();
   };
 
@@ -126,10 +135,11 @@ class StopWatchContainer extends Component {
       userItem = {date, dateItems: [dateItem]};
       restAPI.addData(this.props.user, userItem)
       .then(res => {
-        const dateItems = res.data.dateItems;
-        dateItem = dateItems[dateItems.length-1];
+        const userItems = res.data.userItems;
+        const dateItems = res.data.userItem.dateItems;
+        this.props.db_insert_all({user: this.props.user, userItems});
+        dateItem   = dateItems[dateItems.length-1];
         this.props.watch_sync({date, dateItem});
-        this.props.fetchDB(this.props.user);
       })
       .catch(err => {
         console.error(err);
@@ -141,6 +151,8 @@ class StopWatchContainer extends Component {
     window.addEventListener('blur', this.onBlur);
     window.addEventListener('focus', this.onFocus);
     window.addEventListener('beforeunload', this.onBeforeUnload);
+    window.addEventListener('unload', this.onBeforeUnload);
+    window.addEventListener('close', this.onBeforeUnload);
     this.changeKeyComb(1);
   }
 
@@ -149,6 +161,8 @@ class StopWatchContainer extends Component {
     window.removeEventListener('blur', this.onBlur);
     window.removeEventListener('focus', this.onFocus);
     window.removeEventListener('beforeunload', this.onBeforeUnload);
+    window.removeEventListener('unload', this.onBeforeUnload);
+    window.removeEventListener('close', this.onBeforeUnload);
     this.changeKeyComb(0);
   }
 
@@ -157,7 +171,7 @@ class StopWatchContainer extends Component {
       this.changeKeyComb(nextProps.keyCombination);
     }
 
-    return true;
+    return this.props !== nextProps || this.state !== nextState;
   }
 
   render() {
@@ -180,10 +194,11 @@ class StopWatchContainer extends Component {
   }
 }
 
-const mapStateToProps = ({watch, db}) => ({
+const mapStateToProps = ({watch, db, common}) => ({
   ...watch,
   time: watch.initTime + watch.currentTime - watch.startTime - watch.stoppedTime,
-  ...db
+  ...db,
+  common
 });
 const mapDispatchToProps = (dispatch) => bindActionCreators({...watchActions, ...dbActions}, dispatch);
 

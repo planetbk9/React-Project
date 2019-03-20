@@ -5,6 +5,9 @@ import HeaderContainer from 'containers/HeaderContainer';
 import StopWatchContainer from 'containers/StopWatchContainer';
 import HistoryContainer from 'containers/HistoryContainer';
 import SubjectContainer from 'containers/SubjectContainer';
+import ReportContainer from 'containers/ReportContainer';
+import Main from 'components/Main';
+import Footer from 'components/Footer';
 import store from 'store';
 import { Provider } from 'react-redux';
 
@@ -14,9 +17,12 @@ class App extends Component {
       <Provider store={store}>
         <AppTemplate 
           HeaderContainer={HeaderContainer}
+          Main={Main}
           StopWatchContainer={StopWatchContainer}
           HistoryContainer={HistoryContainer}
-          SubjectContainer={SubjectContainer}/>
+          SubjectContainer={SubjectContainer}
+          ReportContainer={ReportContainer}
+          Footer={Footer}/>
       </Provider>
     );
   }

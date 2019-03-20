@@ -67,6 +67,7 @@ module.exports = (app, Time, User) => {
     });
   });
 
+  // return : user
   app.post('/api/addUser', (req, res) => {
     if(!req.body.id || !req.body.password) {
       console.error('id, password missing.');
@@ -111,6 +112,7 @@ module.exports = (app, Time, User) => {
 
   // date가 있으면 dateItems에 dateItem 추가, 없으면 userItems에 userItem 추가, user가 없으면 user 추가
   // body: { date: String, dateItems: [] }
+  // return: {userItems, userItem}
   app.put('/api/addData/:user', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(err) return res.status(500).send({error: 'Find failure'});
@@ -131,6 +133,7 @@ module.exports = (app, Time, User) => {
         time.userItems = [userItem];
 
         time.save((err, data) => {
+          console.log(data);
           res.json(data);
         });
         return;
@@ -153,7 +156,7 @@ module.exports = (app, Time, User) => {
           }
           userItem.dateItems = userItem.dateItems.concat(dateItems);
           data.save((err, data) => {
-            res.json(userItem);
+            res.json({userItems: data.userItems, userItem: userItem});
           });
         }
         return userItem;
@@ -173,13 +176,14 @@ module.exports = (app, Time, User) => {
               return true;
             }
           });
-          res.json(ret);
+          res.json({userItems: data.userItems, userItem: ret});
         });
       }
     });
   });
 
   // body: {subject: String, time: Number }
+  // return: {userItems, dateItem}
   app.put('/api/updateDateItem/:user/:_id', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(!req.params._id || !req.body) {
@@ -218,18 +222,18 @@ module.exports = (app, Time, User) => {
         });
         if(found) return true;
       });
-      
       if(!found) {
         res.json({result: 0, message: 'dateItem not found _id : ' + _id});
         return;
       } else {
         data.save((err, data) => {
-          res.json(ret);
+          res.json({userItems: data.userItems, dateItem: ret});
         });
       }
     });
   });
 
+  // return {userItems, deletedItem}
   app.delete('/api/deleteUserItem/:user/:_id', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(!req.params._id || !data || !data.userItems) {
@@ -250,11 +254,12 @@ module.exports = (app, Time, User) => {
       });
 
       data.save((err, data) => {
-        res.json(ret); 
+        res.json({userItems: data.userItems, deletedItem: ret}); 
       });
     });
   });
 
+  // return {userItems, deletedItem}
   app.delete('/api/deleteItem/:user/:_id', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(!req.params._id || !data || !data.userItems) {
@@ -284,8 +289,30 @@ module.exports = (app, Time, User) => {
       });
 
       data.save((err, data) => {
-        res.json(ret); 
+        res.json({userItems: data.userItems, deletedItem: ret}); 
       });
     });
+  });
+
+  app.delete('/api/deleteUser/:user', (req, res) => {
+    User.findOneAndRemove({id: req.params.user}, (err, data) => {
+      console.log(data);
+    });
+    Time.deleteOne({user: req.params.user}, (err, data) => {
+      console.log(data);
+      return res.json({result: 1});
+    });
+  });
+
+  app.get('/api/getAllUser', (req, res) => {
+    User.find({}, (err, data) => {
+      return res.json(data);
+    });
+  });
+
+  app.get('/api/getAllData', (req, res) => {
+    Time.find({}, (err, data) => {
+      return res.json(data);
+    })
   });
 }
