@@ -59,13 +59,14 @@ $border: 1px solid $primary-color;
         font-size: 0.125rem;
       }
       .report-item-data {
-        font-size: 0.7rem;
+        @include getFontSize(0.7rem);
       }
     }
   }
   .report-mention {
     margin-top: 5rem;
     text-align: center;
+    @include getFontSize($bigfont-size);
   }
   .report-detail-container {
     margin: 5rem auto;
@@ -73,18 +74,18 @@ $border: 1px solid $primary-color;
     .report-detail-boundary {
       display: inline-block;
       width: 50%;
-      padding: 1rem;
+      @include getItemPadding(1rem, 1rem);
       .report-detail-item {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         border: $border;
-        padding: 1rem;
+        @include getItemPadding(1rem, 1rem);
         background: $primary-color;
         box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
         .detail-date {
-          font-size: 1rem;
+          @include getFontSize(1rem);
           margin-bottom: 1rem;
           color: $secondary-color;
         }
@@ -95,18 +96,17 @@ $border: 1px solid $primary-color;
           width: 100%;
           background: $secondary-color;
           border: $border;
-          padding: 0.5rem 1rem;
+          @include getItemPadding(0.5rem, 1rem);
           margin-bottom: 1rem;
+          @include getFontSize(1rem);
           .detail-content-subject {
-            padding-right: 2rem;
           }
           .detail-content-time {
-            padding-right: 2rem;
             font-family: $digit-font;
           }
         }
         .detail-summary {
-          font-size: 1rem;
+          @include getFontSize(1rem);
           color: $secondary-color;
         }
       }

@@ -19,7 +19,7 @@ $header-margin: 3.5rem;
   .template-header-subject {
     font-family: $header-font;
     font-weight: 400;
-    font-size: 3rem;
+    @include getFontSize(3rem);
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -88,17 +88,11 @@ $header-margin: 3.5rem;
     }
   }
   @media (min-width: 551px) and (max-width: 800px) {
-    .template-header-subject {
-      font-size: 2rem;
-    }
     .template-header-nav {
       display: none;
     }
   }
   @media (max-width: 550px) {
-    .template-header-subject {
-      font-size: 2rem;
-    }
     .template-header-nav {
       display: none;
     }
@@ -132,6 +126,7 @@ $header-margin: 3.5rem;
     margin-bottom: 0.5rem;
     margin-left: auto;
     margin-right: auto;
+    padding: 0.5rem;
     border: 1px solid $primary-color;
     outline: none;
     font-family: sans-serif;

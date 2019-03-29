@@ -59,7 +59,9 @@ class HeaderContainer extends Component {
     this.props.common_page(0);
 
     // Guest mode 세팅
-    const guestSubjectList = sessionStorage.getItem('timemanager_list').split(':');
+    const sessionString = sessionStorage.getItem('timemanager_list');
+    if(!sessionString) return;
+    const guestSubjectList = sessionString.split(':');
     let watchSubject;
     for (let subject of guestSubjectList) {
       this.props.subject_insert(watchSubject = subject);

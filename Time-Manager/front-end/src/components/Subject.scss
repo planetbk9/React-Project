@@ -9,7 +9,7 @@
   @include reponsiveScreen();
   .subject-mention {
     margin-bottom: 4rem;
-    font-size: $bigfont-size;
+    @include getFontSize($bigfont-size);
   }
   .subject-input {
     display: flex;
@@ -52,8 +52,16 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: flex-start;
-    width: 25rem;
     margin-top: 2rem;
+    @media #{$wide-screen} {
+      width: 50%;
+    }
+    @media (min-width: 501px) and (max-width: 1024px) {
+      width: 80%;
+    }
+    @media (max-width: 500px) {
+      width: 100%;
+    }
     .subject-item {
       padding: 0.5rem;
       background: rgba(0,0,0,0);

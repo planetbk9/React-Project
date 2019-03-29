@@ -3,7 +3,9 @@ import Modal from 'react-modal';
 import './Header.scss';
 import menu from 'resource/menu.svg';
 
+const mentionList = ['시간 관리는 본인의 몫!', '관리할 것인가 흘려보낼 것인가', '스케쥴은 안녕하신가요', '오전 시간을 활용해보세요!', '꾸준한 운동은 컨디션 조절에 좋습니다.', '짧은 낮잠은 업무 효율을 높여줍니다.'];
 class Header extends Component {
+  modalMention;
   state = {
     id: '',
     password: '',
@@ -86,9 +88,16 @@ class Header extends Component {
       style.opacity = 0;
     }
   }
-
+  // Lifecycle
   componentDidMount() {
     Modal.setAppElement('#root');
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    if(!this.props.modal && nextProps.modal) {
+      this.modalMention = mentionList[Math.floor(Math.random()*mentionList.length)];
+    }
+
+    return this.props !== nextProps || this.state !== nextState;
   }
 
   render() {
@@ -123,10 +132,10 @@ class Header extends Component {
           <img src={menu} alt="menu"/>
           {SmallNavigator}
         </nav>
-        <Modal isOpen={modal} onRequestClose={() => { handleModal(!modal) }} style={modalStyle} contentLabel="Time Manager">
+        <Modal isOpen={modal} onRequestClose={() => { handleModal(!modal); this.setState({id: '', password: '', confirm: ''}) }} style={modalStyle} contentLabel="Time Manager">
           <h2 className="modal-subject">{modalSubject}</h2>
           <form className="modal-form" onSubmit={(e) => this.onSubmit(e, modalType)}>
-            <p className="modal-comment">내 시간은 내가 관리한다!</p>
+            <p className="modal-comment">{this.modalMention}</p>
             {modalType !== 'changePwd' ? <input className="modal-input" type="text" placeholder="아이디" value={this.state.id} onChange={(e) => { this.onInput(e, 'id'); }}></input> : ''}
             <input className="modal-input" type="password" placeholder="비밀번호" value={this.state.password} onChange={(e) => { this.onInput(e, 'password'); }}></input>
             {modalType !== 'login' ? <input className="modal-input" type="password" placeholder="비밀번호 확인" value={this.state.confirm} onChange={(e) => { this.onInput(e, 'confirm'); }}></input> : ''}

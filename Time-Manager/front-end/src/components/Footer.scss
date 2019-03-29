@@ -8,23 +8,38 @@
   height: 7rem;
   background: $primary-color;
   z-index: 5;
+  @media #{$small-screen} {
+    height: 5rem;
+  }
   .footer-copyright {
     color: $secondary-color;
     font-family: 'Space Mono', sans-serif;
-    font-size: 1rem;
+    @include getFontSize(1rem);
     margin-left: 1rem;
+    @media #{$small-screen} {
+      margin-left: 0.5rem;
+    }
   }
   .footer-sns {
     margin-right: 1rem;
+    @media #{$small-screen} {
+      margin-right: 0.5rem;
+    }
     ul {
       display: flex;
       list-style: none;
       li {
         color: $secondary-color;
         margin-right: 1rem;
+        @media #{$small-screen} {
+          margin-right: 0.5rem;
+        }
         img {
           display: block;
           width: 3rem;
+          @media #{$small-screen} {
+            width: 2rem;
+          }
         }
       }
     }

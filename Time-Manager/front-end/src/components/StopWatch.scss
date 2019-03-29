@@ -8,8 +8,8 @@
   margin: 0 auto;
   @include reponsiveScreen();
   .watch-mention {
-    font-size: $bigfont-size;
     margin-bottom: 3rem;
+    @include getFontSize($bigfont-size);
   }
   section {
     display: flex;

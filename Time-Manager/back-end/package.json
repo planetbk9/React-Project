@@ -6,7 +6,7 @@
     "mongoose": "^5.4.6"
   },
   "scripts": {
-    "start": "node app.js",
-    "stop": "fuser -k -n tcp 9000"
+    "start": "PORT=9009 node app.js",
+    "stop": "fuser -k -n tcp 9009"
   }
 }

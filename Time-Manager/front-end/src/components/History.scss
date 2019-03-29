@@ -8,8 +8,8 @@
   padding: 10rem 0;
   @include reponsiveScreen();
   .history-mention {
-    font-size: $bigfont-size;
     text-align: center;
+    @include getFontSize($bigfont-size);
   }
   .history-logout-mention {
     font-size: 1rem;
@@ -32,12 +32,12 @@
         flex-direction: column;  
         background: $primary-color;
         border: 1px solid $primary-color;
-        padding: 1rem;
+        @include getItemPadding(1rem, 1rem);
         padding-bottom: 0;
         box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
         .history-item-header {
           font-family: 'Space Mono', sans-serif;
-          font-size: 1rem;
+          @include getFontSize(1rem);
           text-align: center;
           color: $secondary-color;
           margin-bottom: 1rem;
@@ -49,17 +49,16 @@
           justify-content: center;
           background: $secondary-color;
           border: 1px solid $primary-color;
-          padding: 0.5rem 1rem;
+          @include getItemPadding(0.5rem, 1rem);
           margin-bottom: 1rem;
           cursor: pointer;
+          @include getFontSize(1rem);
           &:active {
             background: $oc-orange-1;
           }
           .history-item-subject {
-            padding-right: 2rem;
           }
           .history-item-time {
-            padding-right: 2rem;
             font-family: 'Space Mono', sans-serif;
           }
           .history-item-delete {
@@ -69,6 +68,9 @@
             transform: translateY(-50%);
             width: 1rem;
             height: 1rem;
+            @media #{$small-screen} {
+              right: 0;
+            }
           }
         }
       }
