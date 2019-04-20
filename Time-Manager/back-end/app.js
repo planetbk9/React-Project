@@ -29,9 +29,11 @@ db.once('open', () => {
 });
 
 var port = process.env.PORT || 9000;
+/*
 var server = app.listen(port, () => {
   console.log('Express server has started on port ' + port);
 });
+*/
 var router = require('./routes')(app, Time, User);
 
-//module.exports = app;
+module.exports = app;
