@@ -1,12 +1,12 @@
 module.exports = (app, Time, User) => {
-  app.get('/api/getUserAllData/:user', (req, res) => {
+  app.get('/api/all-data/:user', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(err) return res.status(500).send({error: 'Find failure'});
       res.json(data);
     });
   });
 
-  app.get('/api/getData/:user/:_id', (req, res) => {
+  app.get('/api/data/:user/:_id', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(err) return res.status(500).send({error: 'Find failure'});
       if(!req.params._id || !data || !data.userItems) {
@@ -38,7 +38,7 @@ module.exports = (app, Time, User) => {
     });
   });
 
-  app.get('/api/checkUser/:user', (req, res) => {
+  app.get('/api/valid-user/:user', (req, res) => {
     User.findOne({id: req.params.user}, (err, data) => {
       if(err) return res.status(500).send({error: 'Find failure'});
       if(data) {
@@ -68,7 +68,7 @@ module.exports = (app, Time, User) => {
   });
 
   // return : user
-  app.post('/api/addUser', (req, res) => {
+  app.post('/api/user', (req, res) => {
     if(!req.body.id || !req.body.password) {
       console.error('id, password missing.');
       res.json({result: 0, message: 'user, password missing'});
@@ -89,7 +89,7 @@ module.exports = (app, Time, User) => {
     });
   });
 
-  app.put('/api/updateUserInfo/:id/:password', (req, res) => {
+  app.put('/api/user-info/:id/:password', (req, res) => {
     User.findOne({id: req.params.id}, (err, data) => {
       if(err) return res.status(500).send({error: 'Find failure'});
       if(!req.params.id || !req.params.password) {
@@ -113,7 +113,7 @@ module.exports = (app, Time, User) => {
   // date가 있으면 dateItems에 dateItem 추가, 없으면 userItems에 userItem 추가, user가 없으면 user 추가
   // body: { date: String, dateItems: [] }
   // return: {userItems, userItem}
-  app.put('/api/addData/:user', (req, res) => {
+  app.put('/api/data/:user', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(err) return res.status(500).send({error: 'Find failure'});
       if(!req.body) {
@@ -184,7 +184,7 @@ module.exports = (app, Time, User) => {
 
   // body: {subject: String, time: Number }
   // return: {userItems, dateItem}
-  app.put('/api/updateDateItem/:user/:_id', (req, res) => {
+  app.put('/api/date-item/:user/:_id', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(!req.params._id || !req.body) {
         console.error('_id or req.body missing.');
@@ -234,7 +234,7 @@ module.exports = (app, Time, User) => {
   });
 
   // return {userItems, deletedItem}
-  app.delete('/api/deleteUserItem/:user/:_id', (req, res) => {
+  app.delete('/api/user-item/:user/:_id', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(!req.params._id || !data || !data.userItems) {
         console.error('id or data.userItems missing.');
@@ -260,7 +260,7 @@ module.exports = (app, Time, User) => {
   });
 
   // return {userItems, deletedItem}
-  app.delete('/api/deleteItem/:user/:_id', (req, res) => {
+  app.delete('/api/date-item/:user/:_id', (req, res) => {
     Time.findOne({user: req.params.user}, (err, data) => {
       if(!req.params._id || !data || !data.userItems) {
         console.error('id or data.userItems missing.');
@@ -294,7 +294,7 @@ module.exports = (app, Time, User) => {
     });
   });
 
-  app.delete('/api/deleteUser/:user', (req, res) => {
+  app.delete('/api/user/:user', (req, res) => {
     User.findOneAndRemove({id: req.params.user}, (err, data) => {
       console.log(data);
     });
@@ -304,15 +304,9 @@ module.exports = (app, Time, User) => {
     });
   });
 
-  app.get('/api/getAllUser', (req, res) => {
+  app.get('/api/all-user', (req, res) => {
     User.find({}, (err, data) => {
       return res.json(data);
     });
-  });
-
-  app.get('/api/getAllData', (req, res) => {
-    Time.find({}, (err, data) => {
-      return res.json(data);
-    })
   });
 }

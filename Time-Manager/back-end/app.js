@@ -9,6 +9,7 @@ const cors = require('cors');
 const corsOptions = {
   origin: (origin, callback) => {
     if(/kevin9.iptime.org/.test(origin)) callback(null, true);
+    else if(/planetbk9.github.io/.test(origin)) callback(null, true);
     else callback(new Error('Not allowed by CORS'));
     //callback(null, true);
   },
@@ -31,5 +32,6 @@ var port = process.env.PORT || 9000;
 var server = app.listen(port, () => {
   console.log('Express server has started on port ' + port);
 });
-
 var router = require('./routes')(app, Time, User);
+
+//module.exports = app;

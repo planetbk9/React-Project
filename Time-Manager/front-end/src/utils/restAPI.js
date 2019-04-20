@@ -2,19 +2,19 @@ import axios from 'axios';
 import server from './serverinfo';
 
 export const getUserAllData = (user) => {
-  return axios.get(server + '/api/getUserAllData/' + user);
+  return axios.get(server + '/api/all-data/' + user);
 };
 
 export const getData = (user, _id) => {
-  return axios.get(server + '/api/getData/' + user + '/' + _id);
+  return axios.get(server + '/api/data/' + user + '/' + _id);
 };
 
 export const addUser = (userData) => {
-  return axios.post(server + '/api/addUser', userData);
+  return axios.post(server + '/api/user', userData);
 };
 
 export const checkUser = (id) => {
-  return axios.get(server + '/api/checkUser/' + id);
+  return axios.get(server + '/api/valid-user/' + id);
 };
 
 export const loginUser = (id, password) => {
@@ -22,17 +22,25 @@ export const loginUser = (id, password) => {
 }
 
 export const changeUserInfo = (id, password) => {
-  return axios.put(server + '/api/updateUserInfo/' + id + '/' + password);
+  return axios.put(server + '/api/user-info/' + id + '/' + password);
 }
 
 export const addData = (user, userInfo) => {
-  return axios.put(server + '/api/addData/' + user, userInfo);
+  return axios.put(server + '/api/data/' + user, userInfo);
 };
 
 export const updateData = (user, _id, dateItem) => {
-  return axios.put(server + '/api/updateDateItem/' + user + '/' + _id, dateItem);
+  return axios.put(server + '/api/date-item/' + user + '/' + _id, dateItem);
 };
 
 export const deleteItem = (user, _id) => {
-  return axios.delete(server + '/api/deleteItem/' + user + '/' + _id);
+  return axios.delete(server + '/api/date-item/' + user + '/' + _id);
+};
+
+export const deleteUser = (user) => {
+  return axios.delete(server + '/api/user/' + user);
+};
+
+export const getAllUser = () => {
+  return axios.get(server + '/api/all-user');
 };
