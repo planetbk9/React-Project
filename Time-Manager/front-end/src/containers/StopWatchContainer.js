@@ -11,9 +11,35 @@ class StopWatchContainer extends Component {
   timeNum = 0;
   forceStop = false; // For reset event
 
+  constructor(props) {
+    super(props);
+    // time: watch.initTime + watch.currentTime - watch.startTime - watch.stoppedTime
+    this.state = {
+      initTime: 0,
+      startTime: Date.now(),
+      stoppedTime: 0,
+      pauseTime: 0,
+      currentTime: Date.now(),
+    };
+  }
+  //
+  saveToLocal = () => {
+    const { initTime, startTime, stoppedTime, pauseTime, currentTime } = this.props;
+    this.setState({
+      initTime,
+      startTime,
+      stoppedTime,
+      pauseTime,
+      currentTime
+    });
+  }
   countTime = () => {
     this.timeNum = setInterval(() => {
-      this.props.watch_progress(Date.now());
+      this.setState({
+        ...this.state,
+        currentTime: Date.now()
+      });
+      //this.props.watch_progress(Date.now());
     }, 10);
   };
   stopTime = () => {
@@ -22,23 +48,27 @@ class StopWatchContainer extends Component {
   handleStart = () => {
     this.countTime();
     this.props.watch_start(Date.now());
+    this.saveToLocal(); //
   }; 
   
   handlePause = () => {
     this.stopTime();
     this.saveTime(this.props.user, false);
     this.props.watch_pause(Date.now());
+    this.saveToLocal(); //
   }
 
   handleResume = () => {
     this.countTime();
     this.props.watch_resume(Date.now());
+    this.saveToLocal(); //
   }
   
   handleReset = () => {
     this.stopTime();
     this.props.watch_reset(Date.now());
     this.saveTime(this.props.user, true, 0);
+    this.saveToLocal(); //
   }
   
   changeTime = () => {
@@ -177,10 +207,13 @@ class StopWatchContainer extends Component {
   render() {
     const { time, state, date, dateItem } = this.props;
     const { handleStart, handlePause, handleResume, handleReset, changeTime, changeDate } = this;
+    //
+    const { initTime, currentTime, startTime, stoppedTime } = this.state;
+    const tempTime = initTime + currentTime - startTime - stoppedTime;
 
     return (
       <StopWatch
-        time={time}
+        time={tempTime}
         onStart={handleStart}
         onPause={handlePause}
         onResume={handleResume}

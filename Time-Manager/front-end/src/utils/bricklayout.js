@@ -20,7 +20,8 @@ function bricklayout() {
           var containerWidth = getComputedValue(container, 'width');
           var colNum = findColNum(container);
           if (isNaN(colNum)) {
-            container.style.height = 0 + 'px';
+            //container.style.height = 0 + 'px';
+            container.height = 0 + 'px';
             return;
           }
           var posX = [];
@@ -50,14 +51,28 @@ function bricklayout() {
                   }
                   if(posY[temp['y']] < posY[cand['y']]) cand = temp;
               }
+              /*
               brick.style.left = posX[cand['x']] + 'px';
               brick.style.top = posY[cand['y']] + 'px';
+              */
+              brick.left = posX[cand['x']] + 'px';
+              brick.top = posY[cand['y']] + 'px';
               for(i=0; i<brick.col; i++) {
                   posY[i+cand['x']] = posY[i+cand['x']] + getComputedValue(brick, 'height');
               }
               totHeight = Math.max(totHeight, posY[cand['x']]);
           });
-          container.style.height = totHeight + 'px';
+          //container.style.height = totHeight + 'px';
+          container.height = totHeight + 'px';
+      });
+
+      // Apply to DOM
+      [].forEach.call(brickContainers, function(container) {
+          container.style.height = container.height;
+          [].forEach.call(container.items, function (brick) {
+              brick.style.left = brick.left;
+              brick.style.top = brick.top;
+          });
       });
 
       function findColNum(container) {
